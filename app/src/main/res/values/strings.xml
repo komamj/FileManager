@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">FileManager</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_search">Search</string>
+    <string name="copyright">CopyRight@2016</string>
+
+    <!--CategoryButton-->
+    <string name="category_num" translatable="false">%1$d</string>
+</resources>

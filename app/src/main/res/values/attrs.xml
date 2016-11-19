@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CategoryButton">
+        <attr name="category_image" format="reference|color" />
+        <attr name="category_text" format="reference|string" />
+    </declare-styleable>
+</resources>
