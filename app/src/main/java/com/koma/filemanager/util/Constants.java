@@ -9,4 +9,8 @@ public final class Constants {
     public static final int COMPRESS_QUALITY = 100;
     // 25f is the max blur radius.
     public static final float BLUR_RADIUS = 10f;
+
+    public static final String EXTERNAL = "external";
+    public static final String[] MEDIA_PROJECTION = new String[]{"_id", "title"};
+
 }

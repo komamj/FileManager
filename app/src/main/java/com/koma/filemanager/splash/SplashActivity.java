@@ -64,7 +64,7 @@ public class SplashActivity extends BaseActivity {
                                 .subscribe(new Subscriber<Drawable>() {
                                     @Override
                                     public void onCompleted() {
-                                        LogUtils.i(TAG, "onCompleted");
+                                        LogUtils.i(TAG, "onCompleted thread id :" + Thread.currentThread().getId());
                                     }
 
                                     @Override

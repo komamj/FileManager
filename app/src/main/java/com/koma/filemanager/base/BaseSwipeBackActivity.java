@@ -9,7 +9,7 @@ import com.koma.filemanager.util.LogUtils;
  */
 
 public abstract class BaseSwipeBackActivity extends BaseActivity {
-    public static final String TAG = "BaseSwipeBackActivity";
+    private static final String TAG = "BaseSwipeBackActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

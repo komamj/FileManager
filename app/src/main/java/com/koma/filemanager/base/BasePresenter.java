@@ -5,5 +5,7 @@ package com.koma.filemanager.base;
  */
 
 public interface BasePresenter {
-    void start();
+    void subscribe();
+
+    void unSubscribe();
 }

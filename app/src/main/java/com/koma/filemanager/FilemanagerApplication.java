@@ -16,7 +16,7 @@ public class FilemanagerApplication extends Application {
         sContext = getApplicationContext();
     }
 
-    public synchronized Context getContext() {
+    public static synchronized Context getContext() {
         return sContext;
     }
 }

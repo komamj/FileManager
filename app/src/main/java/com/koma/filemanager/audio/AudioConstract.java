@@ -7,7 +7,7 @@ import com.koma.filemanager.base.BaseView;
  * Created by koma on 11/16/16.
  */
 
-public interface Constract {
+public interface AudioConstract {
     interface View extends BaseView<Presenter> {
     }
 

@@ -9,4 +9,22 @@
 
     <!--CategoryButton-->
     <string name="category_num" translatable="false">%1$d</string>
+
+    <!--Audio-->
+    <string name="audio_files">Audio Files</string>
+
+    <!--Video-->
+    <string name="video_files">Video Files</string>
+
+    <!--Image-->
+    <string name="image_files">Image Files</string>
+
+    <!--Document-->
+    <string name="document_files">Document Files</string>
+
+    <!--Zip-->
+    <string name="zip_files">Zip Files</string>
+
+    <!--Apk-->
+    <string name="apk_files">Apk Files</string>
 </resources>

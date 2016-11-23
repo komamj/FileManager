@@ -1,20 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.koma.filemanager.MainActivity"
+    tools:context="com.koma.filemanager.main.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+        android:layout_marginBottom="@dimen/category_linearlayout_marginBottom"
+        android:layout_marginTop="@dimen/category_linearlayout_marginTop"
+        android:orientation="horizontal">
+
+        <com.koma.filemanager.widget.CategoryButton
+            android:id="@+id/audio_category"
+            style="@style/CategoryButtonStyle"
+            app:category_image="@mipmap/category_audio"
+            app:category_text="@string/audio_files" />
+
+        <com.koma.filemanager.widget.CategoryButton
+            android:id="@+id/video_category"
+            style="@style/CategoryButtonStyle"
+            app:category_image="@mipmap/category_video"
+            app:category_text="@string/video_files" />
+
+        <com.koma.filemanager.widget.CategoryButton
+            android:id="@+id/image_category"
+            style="@style/CategoryButtonStyle"
+            app:category_image="@mipmap/category_image"
+            app:category_text="@string/image_files" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/category_linearlayout_marginBottom"
+        android:orientation="horizontal">
+
+        <com.koma.filemanager.widget.CategoryButton
+            android:id="@+id/document_category"
+            style="@style/CategoryButtonStyle"
+            app:category_image="@mipmap/category_doc"
+            app:category_text="@string/document_files" />
+
+        <com.koma.filemanager.widget.CategoryButton
+            android:id="@+id/zip_category"
+            style="@style/CategoryButtonStyle"
+            app:category_image="@mipmap/category_zip"
+            app:category_text="@string/zip_files" />
+
+        <com.koma.filemanager.widget.CategoryButton
+            android:id="@+id/apk_category"
+            style="@style/CategoryButtonStyle"
+            app:category_image="@mipmap/category_apk"
+            app:category_text="@string/apk_files" />
+    </LinearLayout>
+
+    <include layout="@layout/divider_line" />
+
+</LinearLayout>

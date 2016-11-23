@@ -41,6 +41,7 @@ public class CategoryButton extends LinearLayout {
 
 
     private void init(Context context, AttributeSet attributeSet) {
+        setOrientation(VERTICAL);
         inflate(context, R.layout.category_button_layout, this);
         mCount = DEFAULT_COUNT;
         mContext = context;

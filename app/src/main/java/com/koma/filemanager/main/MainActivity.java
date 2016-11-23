@@ -8,20 +8,27 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseActivity;
 import com.koma.filemanager.util.LogUtils;
+import com.koma.filemanager.widget.CategoryButton;
+
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainContract.View {
     private static final String TAG = "MainActivity";
 
+    private MainContract.Presenter mPrenter;
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
     @BindView(R.id.fab)
@@ -30,6 +37,36 @@ public class MainActivity extends BaseActivity
     DrawerLayout mDrawer;
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
+    @BindViews({R.id.audio_category, R.id.video_category, R.id.image_category,
+            R.id.document_category, R.id.zip_category, R.id.apk_category})
+    List<CategoryButton> mCategoryButtons;
+
+    @OnClick({R.id.audio_category, R.id.video_category, R.id.image_category,
+            R.id.document_category, R.id.zip_category, R.id.apk_category})
+    void launchCategoryActivity(View view) {
+        switch (view.getId()) {
+            case R.id.audio_category:
+                LogUtils.i(TAG, "launch AudioActivity");
+                break;
+            case R.id.video_category:
+                LogUtils.i(TAG, "launch VideoActivity");
+                break;
+            case R.id.image_category:
+                LogUtils.i(TAG, "launch ImageActivity");
+                break;
+            case R.id.document_category:
+                LogUtils.i(TAG, "launch DocumentActivity");
+                break;
+            case R.id.zip_category:
+                LogUtils.i(TAG, "launch ZipActivity");
+                break;
+            case R.id.apk_category:
+                LogUtils.i(TAG, "launch ApkActivity");
+                break;
+            default:
+                LogUtils.i(TAG, "default");
+        }
+    }
 
     @OnClick(R.id.fab)
     void showAction() {
@@ -41,6 +78,10 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtils.i(TAG, "onCreate");
+        init();
+    }
+
+    private void init() {
         setSupportActionBar(mToolBar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -48,6 +89,36 @@ public class MainActivity extends BaseActivity
         toggle.syncState();
 
         mNavigationView.setNavigationItemSelectedListener(this);
+
+        mPrenter = new MainPresenter(MainActivity.this, this);
+    }
+
+    public void onStart() {
+        super.onStart();
+        LogUtils.i(TAG, "onStart");
+    }
+
+    public void onResume() {
+        super.onResume();
+        LogUtils.i(TAG, "onResume");
+    }
+
+    public void onPause() {
+        super.onPause();
+        LogUtils.i(TAG, "onPause");
+    }
+
+    public void onStop() {
+        super.onStop();
+        LogUtils.i(TAG, "onStop");
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtils.i(TAG, "onDestroy");
+        if (mPrenter != null) {
+            mPrenter.unSubscribe();
+        }
     }
 
     @Override
@@ -109,5 +180,40 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void setPresenter(MainPresenter presenter) {
+
+    }
+
+    @Override
+    public void refreshAudioCounts(int count) {
+
+    }
+
+    @Override
+    public void refreshVideoCounts(int count) {
+
+    }
+
+    @Override
+    public void refreshImageCounts(int count) {
+
+    }
+
+    @Override
+    public void refreshDocumentCounts(int count) {
+
+    }
+
+    @Override
+    public void refreshZipCounts(int count) {
+
+    }
+
+    @Override
+    public void refreshApkCounts(int count) {
+
     }
 }
