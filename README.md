@@ -1,2 +1,2 @@
 # FileManager
-FileManager base on android
+An android open source project about "FileManager".
