@@ -9,7 +9,7 @@ import com.koma.filemanager.base.BaseView;
 
 public interface MainContract {
     interface View extends BaseView<MainPresenter> {
-        void refreshAudioCounts(int count);
+        void refreshAudioCounts(String count);
 
         void refreshVideoCounts(int count);
 
@@ -25,7 +25,7 @@ public interface MainContract {
     interface Presenter extends BasePresenter {
         void launchCategoryActivity(int resourceId);
 
-        int getAudioCounts();
+        void getAudioCounts();
 
         int getVideoCounts();
 

@@ -27,6 +27,7 @@ import rx.subscriptions.CompositeSubscription;
 public class MainPresenter implements MainContract.Presenter {
     private static final String TAG = "MainPresenter";
     private Context mContext;
+    private int mAudioCounts;
     @NonNull
     private MainContract.View mView;
     @NonNull
@@ -41,7 +42,12 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void subscribe() {
-
+        getAudioCounts();
+        getVideoCounts();
+        getImageCounts();
+        getDocumentCounts();
+        getZipCounts();
+        getApkCounts();
     }
 
     @Override
@@ -76,43 +82,45 @@ public class MainPresenter implements MainContract.Presenter {
             default:
                 LogUtils.i(TAG, "launchCategoryActivity  no match resourceId");
         }
-
+        mContext.startActivity(intent);
     }
 
     @Override
-    public int getAudioCounts() {
-        Observable.just(FileCategoryUtils.getAudioUri()).map(new Func1<Uri, Cursor>() {
+    public void getAudioCounts() {
+        Observable.just(FileCategoryUtils.getAudioUri()).map(new Func1<Uri, String>() {
             @Override
-            public Cursor call(Uri uri) {
-                Cursor cursor;
-                cursor = FilemanagerApplication.getContext().getContentResolver().query(uri,
+            public String call(Uri uri) {
+                Cursor cursor = FilemanagerApplication.getContext().getContentResolver().query(uri,
                         FileCategoryUtils.getMediaProjection(),
                         FileCategoryUtils.getSelection(), null, null);
-                return cursor;
+                int count = cursor.getCount();
+                if(cursor!=null){
+                    if(!cursor.isClosed()){
+                        cursor.close();
+                    }
+                }
+                LogUtils.i(TAG,"getAudioCounts thread id : " + Thread.currentThread().getId());
+                return String.valueOf(count);
             }
-        }).observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Cursor>() {
+        }).observeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
-
+                LogUtils.i(TAG,"onCompleted");
             }
 
             @Override
             public void onError(Throwable e) {
-
+                LogUtils.e(TAG,"getAudioCounts error :" + e.toString());
             }
 
             @Override
-            public void onNext(Cursor cursor) {
-                if (cursor != null && !cursor.isClosed()) {
-                    int count = cursor.getCount();
-                    cursor.close();
+            public void onNext(String s) {
+                if(mView != null){
+                    mView.refreshAudioCounts(s);
                 }
-
-
             }
         });
-        return 0;
     }
 
     @Override

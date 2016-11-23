@@ -1,6 +1,7 @@
 package com.koma.filemanager.main;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
@@ -47,6 +48,9 @@ public class MainActivity extends BaseActivity
         switch (view.getId()) {
             case R.id.audio_category:
                 LogUtils.i(TAG, "launch AudioActivity");
+                if(mPrenter != null){
+                    mPrenter.launchCategoryActivity(R.id.audio_category);
+                }
                 break;
             case R.id.video_category:
                 LogUtils.i(TAG, "launch VideoActivity");
@@ -90,12 +94,15 @@ public class MainActivity extends BaseActivity
 
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        mPrenter = new MainPresenter(MainActivity.this, this);
+        MainPresenter prenter = new MainPresenter(MainActivity.this, this);
     }
 
     public void onStart() {
         super.onStart();
         LogUtils.i(TAG, "onStart");
+        if(mPrenter !=null){
+            mPrenter.subscribe();
+        }
     }
 
     public void onResume() {
@@ -183,37 +190,44 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void setPresenter(MainPresenter presenter) {
-
+    public void setPresenter(@NonNull MainPresenter presenter) {
+        LogUtils.i(TAG,"setPresenter");
+        mPrenter = presenter;
     }
 
     @Override
-    public void refreshAudioCounts(int count) {
-
+    public void refreshAudioCounts(String count) {
+        LogUtils.i(TAG,"refreshAudioCounts count: " + count);
+        mCategoryButtons.get(0).setCountText(Integer.parseInt(count));
     }
 
     @Override
     public void refreshVideoCounts(int count) {
-
+        LogUtils.i(TAG,"refreshVideoCounts count: "+ count);
+        //mCategoryButtons.get(1).setCountText(count);
     }
 
     @Override
     public void refreshImageCounts(int count) {
-
+        LogUtils.i(TAG,"refreshImageCounts count:" + count);
+        mCategoryButtons.get(2).setCountText(count);
     }
 
     @Override
     public void refreshDocumentCounts(int count) {
-
+        LogUtils.i(TAG,"refreshDocumentCounts count: "+ count);
+        mCategoryButtons.get(3).setCountText(count);
     }
 
     @Override
     public void refreshZipCounts(int count) {
-
+        LogUtils.i(TAG,"refreshZipCounts count: " + count);
+        mCategoryButtons.get(4).setCountText(count);
     }
 
     @Override
     public void refreshApkCounts(int count) {
-
+        LogUtils.i(TAG,"refreshApkCounts count: " + count);
+        mCategoryButtons.get(5).setCountText(count);
     }
 }
