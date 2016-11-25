@@ -9,13 +9,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseActivity;
+import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 import com.koma.filemanager.widget.CategoryButton;
 
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity
         switch (view.getId()) {
             case R.id.audio_category:
                 LogUtils.i(TAG, "launch AudioActivity");
-                if(mPrenter != null){
+                if (mPrenter != null) {
                     mPrenter.launchCategoryActivity(R.id.audio_category);
                 }
                 break;
@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity
     public void onStart() {
         super.onStart();
         LogUtils.i(TAG, "onStart");
-        if(mPrenter !=null){
+        if (mPrenter != null) {
             mPrenter.subscribe();
         }
     }
@@ -191,43 +191,43 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void setPresenter(@NonNull MainPresenter presenter) {
-        LogUtils.i(TAG,"setPresenter");
+        LogUtils.i(TAG, "setPresenter");
         mPrenter = presenter;
     }
 
     @Override
     public void refreshAudioCounts(String count) {
-        LogUtils.i(TAG,"refreshAudioCounts count: " + count);
+        LogUtils.i(TAG, "refreshAudioCounts count: " + count);
         mCategoryButtons.get(0).setCountText(Integer.parseInt(count));
     }
 
     @Override
     public void refreshVideoCounts(int count) {
-        LogUtils.i(TAG,"refreshVideoCounts count: "+ count);
+        LogUtils.i(TAG, "refreshVideoCounts count: " + count);
         //mCategoryButtons.get(1).setCountText(count);
     }
 
     @Override
     public void refreshImageCounts(int count) {
-        LogUtils.i(TAG,"refreshImageCounts count:" + count);
+        LogUtils.i(TAG, "refreshImageCounts count:" + count);
         mCategoryButtons.get(2).setCountText(count);
     }
 
     @Override
     public void refreshDocumentCounts(int count) {
-        LogUtils.i(TAG,"refreshDocumentCounts count: "+ count);
+        LogUtils.i(TAG, "refreshDocumentCounts count: " + count);
         mCategoryButtons.get(3).setCountText(count);
     }
 
     @Override
     public void refreshZipCounts(int count) {
-        LogUtils.i(TAG,"refreshZipCounts count: " + count);
+        LogUtils.i(TAG, "refreshZipCounts count: " + count);
         mCategoryButtons.get(4).setCountText(count);
     }
 
     @Override
     public void refreshApkCounts(int count) {
-        LogUtils.i(TAG,"refreshApkCounts count: " + count);
+        LogUtils.i(TAG, "refreshApkCounts count: " + count);
         mCategoryButtons.get(5).setCountText(count);
     }
 }

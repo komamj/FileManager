@@ -1,6 +1,7 @@
 package com.koma.filemanager.audio;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseSwipeBackActivity;
@@ -16,6 +17,18 @@ public class AudioActivity extends BaseSwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtils.i(TAG, "onCreate");
+        init();
+    }
+
+    private void init() {
+        AudioFragment audioFragment = (AudioFragment) getSupportFragmentManager().findFragmentById(R.id.content);
+        if (audioFragment == null) {
+            audioFragment = new AudioFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content, audioFragment).commit();
+        }
+        AudioPresenter audioPresenter = new AudioPresenter(audioFragment);
+        audioPresenter.subscribe();
     }
 
     protected void onStart() {

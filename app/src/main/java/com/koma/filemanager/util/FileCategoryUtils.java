@@ -28,6 +28,10 @@ public final class FileCategoryUtils {
         return Constants.MEDIA_PROJECTION;
     }
 
+    public static String[] getAudioProjection() {
+        return Constants.AUDIO_PROJECTION;
+    }
+
     public static String getSelection() {
         StringBuilder stringBuilder = new StringBuilder("(");
         stringBuilder.append(MediaStore.Files.FileColumns.TITLE);

@@ -9,12 +9,12 @@ import android.support.annotation.NonNull;
 
 import com.koma.filemanager.FilemanagerApplication;
 import com.koma.filemanager.R;
-import com.koma.filemanager.util.Constants;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -87,40 +87,46 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void getAudioCounts() {
-        Observable.just(FileCategoryUtils.getAudioUri()).map(new Func1<Uri, String>() {
-            @Override
-            public String call(Uri uri) {
-                Cursor cursor = FilemanagerApplication.getContext().getContentResolver().query(uri,
-                        FileCategoryUtils.getMediaProjection(),
-                        FileCategoryUtils.getSelection(), null, null);
-                int count = cursor.getCount();
-                if(cursor!=null){
-                    if(!cursor.isClosed()){
-                        cursor.close();
+        Subscription subscription = Observable
+                .just(FileCategoryUtils.getAudioUri())
+                .map(new Func1<Uri, String>() {
+                    @Override
+                    public String call(Uri uri) {
+                        Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                                .query(uri, FileCategoryUtils.getMediaProjection(),
+                                        FileCategoryUtils.getSelection(), null, null);
+                        int count = cursor.getCount();
+                        if (cursor != null) {
+                            if (!cursor.isClosed()) {
+                                cursor.close();
+                            }
+                        }
+                        LogUtils.i(TAG, "getAudioCounts thread id : "
+                                + Thread.currentThread().getId());
+                        return String.valueOf(count);
                     }
-                }
-                LogUtils.i(TAG,"getAudioCounts thread id : " + Thread.currentThread().getId());
-                return String.valueOf(count);
-            }
-        }).observeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<String>() {
-            @Override
-            public void onCompleted() {
-                LogUtils.i(TAG,"onCompleted");
-            }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        LogUtils.i(TAG, "onCompleted Thread id : "
+                                + Thread.currentThread().getId());
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                LogUtils.e(TAG,"getAudioCounts error :" + e.toString());
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "getAudioCounts error :" + e.toString());
+                    }
 
-            @Override
-            public void onNext(String s) {
-                if(mView != null){
-                    mView.refreshAudioCounts(s);
-                }
-            }
-        });
+                    @Override
+                    public void onNext(String s) {
+                        if (mView != null) {
+                            mView.refreshAudioCounts(s);
+                        }
+                    }
+                });
+        mSubscriptions.add(subscription);
     }
 
     @Override

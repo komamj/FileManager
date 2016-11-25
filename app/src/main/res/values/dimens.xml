@@ -14,4 +14,17 @@
 
     <!--divider-->
     <dimen name="divider_height">1dp</dimen>
+
+    <!--defaut-->
+    <dimen name="default_image_width">42dp</dimen>
+    <dimen name="default_image_height">42dp</dimen>
+    <dimen name="default_margin">4dp</dimen>
+
+    <!--CardView-->
+    <dimen name="cardview_padding">4dp</dimen>
+    <dimen name="cardview_margin">10dp</dimen>
+
+    <!--PopupMenu-->
+    <dimen name="pop_horizontal_margin">12dp</dimen>
+    <dimen name="pop_padding">5dp</dimen>
 </resources>
