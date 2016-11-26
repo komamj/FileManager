@@ -1,25 +1,15 @@
 package com.koma.filemanager.audio;
-
-
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 
-import com.koma.filemanager.FilemanagerApplication;
+import com.koma.filemanager.data.FileRepository;
 import com.koma.filemanager.data.model.AudioFile;
-import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
-
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -32,6 +22,8 @@ public class AudioPresenter implements AudioConstract.Presenter {
     private CompositeSubscription mSubscription;
     @NonNull
     private AudioConstract.View mView;
+    @NonNull
+    private FileRepository mFileRepository;
     private Subscriber mAuidoSubscriber = new Subscriber<ArrayList<AudioFile>>() {
         @Override
         public void onCompleted() {
@@ -56,7 +48,8 @@ public class AudioPresenter implements AudioConstract.Presenter {
         }
     };
 
-    public AudioPresenter(@NonNull AudioConstract.View view) {
+    public AudioPresenter(@NonNull AudioConstract.View view, @NonNull FileRepository repository) {
+        mFileRepository = repository;
         mView = view;
         mSubscription = new CompositeSubscription();
         mView.setPresenter(this);
@@ -81,32 +74,6 @@ public class AudioPresenter implements AudioConstract.Presenter {
 
     @Override
     public Observable<ArrayList<AudioFile>> getAudioFiles() {
-        return Observable.just(FileCategoryUtils.getAudioUri())
-                .map(new Func1<Uri, ArrayList<AudioFile>>() {
-                    @Override
-                    public ArrayList<AudioFile> call(Uri uri) {
-                        Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
-                                .query(uri, FileCategoryUtils.getAudioProjection(),
-                                        FileCategoryUtils.getSelection(), null, null);
-                        ArrayList<AudioFile> audioFiles = new ArrayList<>();
-                        if (cursor != null) {
-                            if (!cursor.isClosed()) {
-                                while (cursor.moveToNext()) {
-                                    File file = new File(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA)));
-                                    AudioFile audioFile = new AudioFile();
-                                    audioFile.setFileName(file.getName());
-                                    audioFile.setParent(file.getParent());
-                                    audioFile.setDisplayName(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DISPLAY_NAME)));
-                                    audioFile.setFileSize(cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.SIZE)));
-                                    audioFile.setFileModifiedTime(new Date(cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATE_MODIFIED)) * 1000));
-                                    audioFiles.add(audioFile);
-                                }
-                                cursor.close();
-                            }
-                            LogUtils.i(TAG, "getAudioFiles Thread id: " + Thread.currentThread().getId());
-                        }
-                        return audioFiles;
-                    }
-                });
+        return mFileRepository.getAudioFiles();
     }
 }

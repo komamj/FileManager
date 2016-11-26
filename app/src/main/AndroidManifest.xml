@@ -31,7 +31,8 @@
 
         <activity
             android:name=".audio.AudioActivity"
-            android:label="@string/audio_files"></activity>
+            android:label="@string/audio_files"
+            android:theme="@style/AudioActivityTheme"></activity>
     </application>
 
 </manifest>

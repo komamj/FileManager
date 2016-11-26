@@ -34,7 +34,7 @@ public class FileRepository implements FileDataSource {
 
     @Override
     public Observable<String> getAuidoCounts() {
-        return null;
+        return mLocalDataSource.getAuidoCounts();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class FileRepository implements FileDataSource {
 
     @Override
     public Observable<ArrayList<AudioFile>> getAudioFiles() {
-        return null;
+        return mLocalDataSource.getAudioFiles();
     }
 
     @Override

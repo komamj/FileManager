@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseActivity;
+import com.koma.filemanager.data.FileRepository;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 import com.koma.filemanager.widget.CategoryButton;
@@ -94,7 +95,7 @@ public class MainActivity extends BaseActivity
 
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        MainPresenter prenter = new MainPresenter(MainActivity.this, this);
+        MainPresenter prenter = new MainPresenter(MainActivity.this, this, FileRepository.getInstance());
     }
 
     public void onStart() {

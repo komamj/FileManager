@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.koma.filemanager.FilemanagerApplication;
 import com.koma.filemanager.R;
+import com.koma.filemanager.data.FileRepository;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 
@@ -26,15 +27,17 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MainPresenter implements MainContract.Presenter {
     private static final String TAG = "MainPresenter";
-    private Context mContext;
     private int mAudioCounts;
+    private Context mContext;
     @NonNull
     private MainContract.View mView;
     @NonNull
     private CompositeSubscription mSubscriptions;
+    @NonNull private FileRepository mFileRepository;
 
-    public MainPresenter(@NonNull Context context, @NonNull MainContract.View view) {
+    public MainPresenter(Context context,@NonNull MainContract.View view,@NonNull FileRepository fileRepository) {
         mContext = context;
+        mFileRepository = fileRepository;
         mView = view;
         mSubscriptions = new CompositeSubscription();
         mView.setPresenter(this);
@@ -87,25 +90,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void getAudioCounts() {
-        Subscription subscription = Observable
-                .just(FileCategoryUtils.getAudioUri())
-                .map(new Func1<Uri, String>() {
-                    @Override
-                    public String call(Uri uri) {
-                        Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
-                                .query(uri, FileCategoryUtils.getMediaProjection(),
-                                        FileCategoryUtils.getSelection(), null, null);
-                        int count = cursor.getCount();
-                        if (cursor != null) {
-                            if (!cursor.isClosed()) {
-                                cursor.close();
-                            }
-                        }
-                        LogUtils.i(TAG, "getAudioCounts thread id : "
-                                + Thread.currentThread().getId());
-                        return String.valueOf(count);
-                    }
-                }).subscribeOn(Schedulers.io())
+        Subscription subscription = mFileRepository.getAuidoCounts().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
