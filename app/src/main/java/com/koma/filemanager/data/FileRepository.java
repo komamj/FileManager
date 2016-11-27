@@ -39,27 +39,27 @@ public class FileRepository implements FileDataSource {
 
     @Override
     public Observable<String> getVideoCounts() {
-        return null;
+        return mLocalDataSource.getVideoCounts();
     }
 
     @Override
     public Observable<String> getImageCounts() {
-        return null;
+        return mLocalDataSource.getImageCounts();
     }
 
     @Override
     public Observable<String> getDocumentsCounts() {
-        return null;
+        return mLocalDataSource.getDocumentsCounts();
     }
 
     @Override
     public Observable<String> getZipCounts() {
-        return null;
+        return mLocalDataSource.getZipCounts();
     }
 
     @Override
     public Observable<String> getApkCounts() {
-        return null;
+        return mLocalDataSource.getApkCounts();
     }
 
     @Override
@@ -69,11 +69,11 @@ public class FileRepository implements FileDataSource {
 
     @Override
     public Observable<ArrayList<ImageFile>> getImageFiles() {
-        return null;
+        return mLocalDataSource.getImageFiles();
     }
 
     @Override
     public Observable<ArrayList<VideoFile>> getVideoFiles() {
-        return null;
+        return mLocalDataSource.getVideoFiles();
     }
 }

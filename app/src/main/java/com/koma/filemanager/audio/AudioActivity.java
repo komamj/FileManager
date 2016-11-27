@@ -17,8 +17,8 @@ import butterknife.BindView;
 
 public class AudioActivity extends BaseSwipeBackActivity {
     private static final String TAG = "AudioActivity";
-    /*@BindView(R.id.toolbar)
-    Toolbar mToolBar;*/
+    @BindView(R.id.toolbar)
+    Toolbar mToolBar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +27,7 @@ public class AudioActivity extends BaseSwipeBackActivity {
     }
 
     private void init() {
-       // setSupportActionBar(mToolBar);
+        setSupportActionBar(mToolBar);
         AudioFragment audioFragment = (AudioFragment) getSupportFragmentManager().findFragmentById(R.id.content);
         if (audioFragment == null) {
             audioFragment = new AudioFragment();

@@ -33,6 +33,10 @@
             android:name=".audio.AudioActivity"
             android:label="@string/audio_files"
             android:theme="@style/AudioActivityTheme"></activity>
+        <activity android:name=".image.ImageActivity"
+            android:label="@string/image_files"
+            android:theme="@style/ImageActivityTheme">
+            </activity>
     </application>
 
 </manifest>
