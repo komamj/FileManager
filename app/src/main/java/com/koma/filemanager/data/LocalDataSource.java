@@ -6,9 +6,12 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.koma.filemanager.FilemanagerApplication;
+import com.koma.filemanager.data.model.ApkFile;
 import com.koma.filemanager.data.model.AudioFile;
+import com.koma.filemanager.data.model.DocumentFile;
 import com.koma.filemanager.data.model.ImageFile;
 import com.koma.filemanager.data.model.VideoFile;
+import com.koma.filemanager.data.model.ZipFile;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 
@@ -39,7 +42,10 @@ public class LocalDataSource implements FileDataSource {
                     public String call(Uri uri) {
                         Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
                                 .query(uri, FileCategoryUtils.getMediaProjection(),
-                                        FileCategoryUtils.getSelection(), null, null);
+                                        null, null, null);
+                        if (cursor == null) {
+                            return "0";
+                        }
                         int count = cursor.getCount();
                         if (cursor != null) {
                             if (!cursor.isClosed()) {
@@ -54,27 +60,118 @@ public class LocalDataSource implements FileDataSource {
 
     @Override
     public Observable<String> getVideoCounts() {
-        return null;
+        return Observable.just(FileCategoryUtils.getVideoUri()).map(new Func1<Uri, String>() {
+            @Override
+            public String call(Uri uri) {
+                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                        .query(uri, FileCategoryUtils.getMediaProjection(),
+                                null, null, null);
+                if (cursor == null) {
+                    return "0";
+                }
+                int count = cursor.getCount();
+                if (cursor != null) {
+                    if (!cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+                LogUtils.i(TAG, "getVideoCounts thread id : " + Thread.currentThread().getId());
+                return String.valueOf(count);
+            }
+        });
     }
 
     @Override
     public Observable<String> getImageCounts() {
-        return null;
+        return Observable.just(FileCategoryUtils.getImageUri()).map(new Func1<Uri, String>() {
+            @Override
+            public String call(Uri uri) {
+                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                        .query(uri, FileCategoryUtils.getMediaProjection(),
+                                null, null, null);
+                if (cursor == null) {
+                    return "0";
+                }
+                int count = cursor.getCount();
+                if (cursor != null) {
+                    if (!cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+                LogUtils.i(TAG, "getImageCounts thread id : " + Thread.currentThread().getId());
+                return String.valueOf(count);
+            }
+        });
     }
 
     @Override
     public Observable<String> getDocumentsCounts() {
-        return null;
+        return Observable.just(FileCategoryUtils.getFileUri()).map(new Func1<Uri, String>() {
+            @Override
+            public String call(Uri uri) {
+                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                        .query(uri, FileCategoryUtils.getFileProjection(),
+                                FileCategoryUtils.buildDocSelection(), null, null);
+                if (cursor == null) {
+                    return "0";
+                }
+                int count = cursor.getCount();
+                if (cursor != null) {
+                    if (!cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+                LogUtils.i(TAG, "getDocumentsCounts thread id : " + Thread.currentThread().getId());
+                return String.valueOf(count);
+            }
+        });
     }
 
     @Override
     public Observable<String> getZipCounts() {
-        return null;
+
+        return Observable.just(FileCategoryUtils.getFileUri()).map(new Func1<Uri, String>() {
+            @Override
+            public String call(Uri uri) {
+                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                        .query(uri, FileCategoryUtils.getFileProjection(),
+                                FileCategoryUtils.buildZipSelection(), null, null);
+                if (cursor == null) {
+                    return "0";
+                }
+                int count = cursor.getCount();
+                if (cursor != null) {
+                    if (!cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+                LogUtils.i(TAG, "getZipCounts thread id : " + Thread.currentThread().getId());
+                return String.valueOf(count);
+            }
+        });
     }
 
     @Override
     public Observable<String> getApkCounts() {
-        return null;
+        return Observable.just(FileCategoryUtils.getFileUri()).map(new Func1<Uri, String>() {
+            @Override
+            public String call(Uri uri) {
+                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                        .query(uri, FileCategoryUtils.getFileProjection(),
+                                FileCategoryUtils.buildApkSelection(), null, null);
+                if (cursor == null) {
+                    return "0";
+                }
+                int count = cursor.getCount();
+                if (cursor != null) {
+                    if (!cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+                LogUtils.i(TAG, "getApkCounts thread id : " + Thread.currentThread().getId());
+                return String.valueOf(count);
+            }
+        });
     }
 
     @Override
@@ -85,7 +182,7 @@ public class LocalDataSource implements FileDataSource {
                     public ArrayList<AudioFile> call(Uri uri) {
                         Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
                                 .query(uri, FileCategoryUtils.getAudioProjection(),
-                                        FileCategoryUtils.getSelection(), null, null);
+                                        null, null, null);
                         ArrayList<AudioFile> audioFiles = new ArrayList<>();
                         if (cursor != null) {
                             if (!cursor.isClosed()) {
@@ -115,6 +212,21 @@ public class LocalDataSource implements FileDataSource {
 
     @Override
     public Observable<ArrayList<VideoFile>> getVideoFiles() {
+        return null;
+    }
+
+    @Override
+    public Observable<ArrayList<DocumentFile>> getDocumentFiles() {
+        return null;
+    }
+
+    @Override
+    public Observable<ArrayList<ZipFile>> getZipFiles() {
+        return null;
+    }
+
+    @Override
+    public Observable<ArrayList<ApkFile>> getApkFiles() {
         return null;
     }
 }

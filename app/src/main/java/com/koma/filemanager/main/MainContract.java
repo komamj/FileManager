@@ -11,15 +11,15 @@ public interface MainContract {
     interface View extends BaseView<MainPresenter> {
         void refreshAudioCounts(String count);
 
-        void refreshVideoCounts(int count);
+        void refreshVideoCounts(String count);
 
-        void refreshImageCounts(int count);
+        void refreshImageCounts(String count);
 
-        void refreshDocumentCounts(int count);
+        void refreshDocumentCounts(String count);
 
-        void refreshZipCounts(int count);
+        void refreshZipCounts(String count);
 
-        void refreshApkCounts(int count);
+        void refreshApkCounts(String count);
     }
 
     interface Presenter extends BasePresenter {
@@ -27,14 +27,14 @@ public interface MainContract {
 
         void getAudioCounts();
 
-        int getVideoCounts();
+        void getVideoCounts();
 
-        int getImageCounts();
+        void getImageCounts();
 
-        int getDocumentCounts();
+        void getDocumentCounts();
 
-        int getZipCounts();
+        void getZipCounts();
 
-        int getApkCounts();
+        void getApkCounts();
     }
 }

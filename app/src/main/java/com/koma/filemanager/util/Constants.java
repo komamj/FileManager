@@ -20,7 +20,11 @@ public final class Constants {
 
     //CategoryFiles
     public static final String EXTERNAL = "external";
-    public static final String[] MEDIA_PROJECTION = new String[]{"_id", "title"};
+    public static final String[] MEDIA_PROJECTION = new String[]{"_id"};
+    public static final String[] FILE_PROJECTION = new String[]{
+            MediaStore.Files.FileColumns.DATA, MediaStore.Files.FileColumns.MIME_TYPE,
+            MediaStore.Files.FileColumns.TITLE
+    };
 
     public static final String[] AUDIO_PROJECTION = new String[]{
             MediaStore.Audio.AudioColumns.DATA, MediaStore.Audio.AudioColumns.DISPLAY_NAME,

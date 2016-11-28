@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_mode">
+        <item>@string/sort_by_type</item>
+        <item>@string/sort_by_name</item>
+        <item>@string/sort_by_size</item>
+        <item>@string/sort_by_date</item>
+    </string-array>
+
+    <string-array name="doc_mime_types" translatable="false">
+        <item>text/plain</item>
+        <item>text/html</item>
+        <item>application/pdf</item>
+        <item>application/msword</item>
+        <item>application/vnd.ms-excel</item>
+        <item>application/mspowerpoint</item>
+    </string-array>
+    <string-array name="doc_office_suffix" translatable="false">
+        <item>docx</item>
+        <item>pptx</item>
+        <item>xlsx</item>
+        <item>ppt</item>
+        <item>doc</item>
+        <item>xls</item>
+    </string-array>
+
+    <string-array name="zip_mime_types" translatable="false">
+        <item>application/x-tar</item>
+        <item>application/x-compressed</item>
+        <item>application/zip</item>
+        <item>application/x-gtar</item>
+        <item>application/x-gzip</item>
+        <item>application/x-rar-compressed</item>
+    </string-array>
+    <string-array name="zip_suffix" translatable="false">
+        <item>7z</item>
+        <item>zip</item>
+        <item>rar</item>
+        <item>tar</item>
+        <item>gz</item>
+        <item>bz2</item>
+        <item>tgz</item>
+    </string-array>
+</resources>

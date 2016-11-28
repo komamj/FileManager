@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_splash"
         android:gravity="center"
-        android:visibility="gone"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="match_parent"

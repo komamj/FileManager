@@ -199,35 +199,35 @@ public class MainActivity extends BaseActivity
     @Override
     public void refreshAudioCounts(String count) {
         LogUtils.i(TAG, "refreshAudioCounts count: " + count);
-        mCategoryButtons.get(0).setCountText(Integer.parseInt(count));
+        mCategoryButtons.get(0).setCountText(count);
     }
 
     @Override
-    public void refreshVideoCounts(int count) {
+    public void refreshVideoCounts(String count) {
         LogUtils.i(TAG, "refreshVideoCounts count: " + count);
-        //mCategoryButtons.get(1).setCountText(count);
+        mCategoryButtons.get(1).setCountText(count);
     }
 
     @Override
-    public void refreshImageCounts(int count) {
+    public void refreshImageCounts(String count) {
         LogUtils.i(TAG, "refreshImageCounts count:" + count);
         mCategoryButtons.get(2).setCountText(count);
     }
 
     @Override
-    public void refreshDocumentCounts(int count) {
+    public void refreshDocumentCounts(String count) {
         LogUtils.i(TAG, "refreshDocumentCounts count: " + count);
         mCategoryButtons.get(3).setCountText(count);
     }
 
     @Override
-    public void refreshZipCounts(int count) {
+    public void refreshZipCounts(String count) {
         LogUtils.i(TAG, "refreshZipCounts count: " + count);
         mCategoryButtons.get(4).setCountText(count);
     }
 
     @Override
-    public void refreshApkCounts(int count) {
+    public void refreshApkCounts(String count) {
         LogUtils.i(TAG, "refreshApkCounts count: " + count);
         mCategoryButtons.get(5).setCountText(count);
     }

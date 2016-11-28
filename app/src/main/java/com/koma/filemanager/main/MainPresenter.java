@@ -3,21 +3,15 @@ package com.koma.filemanager.main;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.koma.filemanager.FilemanagerApplication;
 import com.koma.filemanager.R;
 import com.koma.filemanager.data.FileRepository;
-import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -27,15 +21,15 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MainPresenter implements MainContract.Presenter {
     private static final String TAG = "MainPresenter";
-    private int mAudioCounts;
     private Context mContext;
     @NonNull
     private MainContract.View mView;
     @NonNull
     private CompositeSubscription mSubscriptions;
-    @NonNull private FileRepository mFileRepository;
+    @NonNull
+    private FileRepository mFileRepository;
 
-    public MainPresenter(Context context,@NonNull MainContract.View view,@NonNull FileRepository fileRepository) {
+    public MainPresenter(Context context, @NonNull MainContract.View view, @NonNull FileRepository fileRepository) {
         mContext = context;
         mFileRepository = fileRepository;
         mView = view;
@@ -95,7 +89,7 @@ public class MainPresenter implements MainContract.Presenter {
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
-                        LogUtils.i(TAG, "onCompleted Thread id : "
+                        LogUtils.i(TAG, "getAudioCounts onCompleted Thread id : "
                                 + Thread.currentThread().getId());
                     }
 
@@ -115,27 +109,136 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public int getVideoCounts() {
-        return 0;
+    public void getVideoCounts() {
+        Subscription subscription = mFileRepository.getVideoCounts().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        LogUtils.i(TAG, "getVideoCounts onCompleted Thread id : "
+                                + Thread.currentThread().getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.i(TAG, "getVideoCounts onError" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        if (mView != null) {
+                            mView.refreshVideoCounts(s);
+                        }
+                    }
+                });
+        mSubscriptions.add(subscription);
+
     }
 
     @Override
-    public int getImageCounts() {
-        return 0;
+    public void getImageCounts() {
+        Subscription subscription = mFileRepository.getImageCounts().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        LogUtils.i(TAG, "getImageCounts onCompleted Thread id : "
+                                + Thread.currentThread().getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.i(TAG, "getImageCounts onError" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        if (mView != null) {
+                            mView.refreshImageCounts(s);
+                        }
+                    }
+                });
+        mSubscriptions.add(subscription);
     }
 
     @Override
-    public int getDocumentCounts() {
-        return 0;
+    public void getDocumentCounts() {
+        Subscription subscription = mFileRepository.getDocumentsCounts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        LogUtils.i(TAG, "getDocumentsCounts onCompleted Thread id : "
+                                + Thread.currentThread().getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.i(TAG, "getDocumentsCounts onError" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        if (mView != null) {
+                            mView.refreshDocumentCounts(s);
+                        }
+                    }
+                });
+        mSubscriptions.add(subscription);
     }
 
     @Override
-    public int getZipCounts() {
-        return 0;
+    public void getZipCounts() {
+        Subscription subscription = mFileRepository.getZipCounts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        LogUtils.i(TAG, "getZipCounts onCompleted Thread id : "
+                                + Thread.currentThread().getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.i(TAG, "getZipCounts onError" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        if (mView != null) {
+                            mView.refreshZipCounts(s);
+                        }
+                    }
+                });
+        mSubscriptions.add(subscription);
     }
 
     @Override
-    public int getApkCounts() {
-        return 0;
+    public void getApkCounts() {
+        Subscription subscription = mFileRepository.getApkCounts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        LogUtils.i(TAG, "getApkCounts onCompleted Thread id : "
+                                + Thread.currentThread().getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.i(TAG, "getApkCounts onError" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        if (mView != null) {
+                            mView.refreshApkCounts(s);
+                        }
+                    }
+                });
+        mSubscriptions.add(subscription);
     }
 }

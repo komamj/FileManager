@@ -1,9 +1,12 @@
 package com.koma.filemanager.data;
 
 import com.koma.filemanager.FilemanagerApplication;
+import com.koma.filemanager.data.model.ApkFile;
 import com.koma.filemanager.data.model.AudioFile;
+import com.koma.filemanager.data.model.DocumentFile;
 import com.koma.filemanager.data.model.ImageFile;
 import com.koma.filemanager.data.model.VideoFile;
+import com.koma.filemanager.data.model.ZipFile;
 
 import java.util.ArrayList;
 
@@ -75,5 +78,20 @@ public class FileRepository implements FileDataSource {
     @Override
     public Observable<ArrayList<VideoFile>> getVideoFiles() {
         return mLocalDataSource.getVideoFiles();
+    }
+
+    @Override
+    public Observable<ArrayList<DocumentFile>> getDocumentFiles() {
+        return null;
+    }
+
+    @Override
+    public Observable<ArrayList<ZipFile>> getZipFiles() {
+        return null;
+    }
+
+    @Override
+    public Observable<ArrayList<ApkFile>> getApkFiles() {
+        return null;
     }
 }

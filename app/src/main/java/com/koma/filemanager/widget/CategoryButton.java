@@ -18,11 +18,10 @@ import com.koma.filemanager.util.LogUtils;
 public class CategoryButton extends LinearLayout {
     private static final String TAG = "CategoryButton";
     private static final String DEFAULT_COUNT_TEXT = "...";
-    private static final int DEFAULT_COUNT = 0;
     private ImageView mImageView;
     private TextView mTitleTextView;
     private TextView mCountTextView;
-    private int mCount;
+    private String mCount;
     private Context mContext;
 
     public CategoryButton(Context context) {
@@ -43,7 +42,7 @@ public class CategoryButton extends LinearLayout {
     private void init(Context context, AttributeSet attributeSet) {
         setOrientation(VERTICAL);
         inflate(context, R.layout.category_button_layout, this);
-        mCount = DEFAULT_COUNT;
+        mCount = DEFAULT_COUNT_TEXT;
         mContext = context;
         mImageView = (ImageView) findViewById(R.id.iv_category_button);
         mTitleTextView = (TextView) findViewById(R.id.tv_category_button_title);
@@ -72,16 +71,8 @@ public class CategoryButton extends LinearLayout {
     }
 
     // 此处的输入为个数
-    public void setCountText(int count) {
+    public void setCountText(String count) {
         mCount = count;
-        if (mCount < 0) {
-            this.mCountTextView.setText(DEFAULT_COUNT_TEXT);
-        } else {
-            this.mCountTextView.setText(mContext.getString(R.string.category_num, mCount));
-        }
-    }
-
-    public int getCount() {
-        return mCount;
+        this.mCountTextView.setText(mContext.getString(R.string.category_num, mCount));
     }
 }

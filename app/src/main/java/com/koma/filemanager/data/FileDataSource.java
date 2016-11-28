@@ -1,8 +1,11 @@
 package com.koma.filemanager.data;
 
+import com.koma.filemanager.data.model.ApkFile;
 import com.koma.filemanager.data.model.AudioFile;
+import com.koma.filemanager.data.model.DocumentFile;
 import com.koma.filemanager.data.model.ImageFile;
 import com.koma.filemanager.data.model.VideoFile;
+import com.koma.filemanager.data.model.ZipFile;
 
 import java.util.ArrayList;
 
@@ -30,4 +33,11 @@ public interface FileDataSource {
     Observable<ArrayList<ImageFile>> getImageFiles();
 
     Observable<ArrayList<VideoFile>> getVideoFiles();
+
+    Observable<ArrayList<DocumentFile>> getDocumentFiles();
+
+    Observable<ArrayList<ZipFile>> getZipFiles();
+
+    Observable<ArrayList<ApkFile>> getApkFiles();
+
 }

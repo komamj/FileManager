@@ -8,7 +8,7 @@
     <string name="copyright">CopyRight@2016</string>
 
     <!--CategoryButton-->
-    <string name="category_num" translatable="false">%1$d</string>
+    <string name="category_num" translatable="false">%1$s</string>
 
     <!--Audio-->
     <string name="audio_files">Audio Files</string>
@@ -27,4 +27,9 @@
 
     <!--Apk-->
     <string name="apk_files">Apk Files</string>
+    <!--SortType-->
+    <string name="sort_by_type">Type</string>
+    <string name="sort_by_name">Name</string>
+    <string name="sort_by_size">Size</string>
+    <string name="sort_by_date">Date</string>
 </resources>
