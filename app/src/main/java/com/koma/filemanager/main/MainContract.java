@@ -2,6 +2,9 @@ package com.koma.filemanager.main;
 
 import com.koma.filemanager.base.BasePresenter;
 import com.koma.filemanager.base.BaseView;
+import com.koma.filemanager.data.model.Disk;
+
+import java.util.ArrayList;
 
 /**
  * Created by koma on 11/23/16.
@@ -20,6 +23,8 @@ public interface MainContract {
         void refreshZipCounts(String count);
 
         void refreshApkCounts(String count);
+
+        void refreshAdapter(ArrayList<Disk> disks);
     }
 
     interface Presenter extends BasePresenter {
@@ -36,5 +41,7 @@ public interface MainContract {
         void getZipCounts();
 
         void getApkCounts();
+
+        void getDisks();
     }
 }

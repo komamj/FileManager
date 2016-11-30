@@ -2,7 +2,7 @@ package com.koma.filemanager.util;
 
 import android.text.format.Formatter;
 
-import com.koma.filemanager.FilemanagerApplication;
+import com.koma.filemanager.FileManagerApplication;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,8 +13,9 @@ import java.util.Locale;
  */
 
 public class FileUtils {
+    // 直接使用系统内置API进行转换
     public static String formatFileSize(long size) {
-        return Formatter.formatFileSize(FilemanagerApplication.getContext(), size);
+        return Formatter.formatFileSize(FileManagerApplication.getContext(), size);
     }
 
     public static String formatFileModifiedTime(Date filetime) {

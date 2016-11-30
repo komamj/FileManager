@@ -1,8 +1,9 @@
 package com.koma.filemanager.data;
 
-import com.koma.filemanager.FilemanagerApplication;
+import com.koma.filemanager.FileManagerApplication;
 import com.koma.filemanager.data.model.ApkFile;
 import com.koma.filemanager.data.model.AudioFile;
+import com.koma.filemanager.data.model.Disk;
 import com.koma.filemanager.data.model.DocumentFile;
 import com.koma.filemanager.data.model.ImageFile;
 import com.koma.filemanager.data.model.VideoFile;
@@ -21,7 +22,7 @@ public class FileRepository implements FileDataSource {
     private LocalDataSource mLocalDataSource;
 
     private FileRepository() {
-        mLocalDataSource = new LocalDataSource(FilemanagerApplication.getContext());
+        mLocalDataSource = new LocalDataSource(FileManagerApplication.getContext());
     }
 
     public static FileRepository getInstance() {
@@ -63,6 +64,11 @@ public class FileRepository implements FileDataSource {
     @Override
     public Observable<String> getApkCounts() {
         return mLocalDataSource.getApkCounts();
+    }
+
+    @Override
+    public Observable<ArrayList<Disk>> getDisks() {
+        return mLocalDataSource.getDisks();
     }
 
     @Override

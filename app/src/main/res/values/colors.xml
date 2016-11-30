@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="category_button_text_color">#808080</color>
     <color name="color_divider">#e0e0e0</color>
+
+    <!--ProgressBar-->
+    <color name="progress_bar_background">#ececec</color>
+    <color name="progress_bar_color">#02a9ec</color>
 </resources>

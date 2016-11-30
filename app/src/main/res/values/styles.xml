@@ -26,7 +26,14 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="AudioActivityTheme" parent="AppTheme.NoActionBar"></style>
+
+    <style name="AudioPlayerTheme" parent="AppTheme.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
     <style name="ImageActivityTheme" parent="AppTheme.NoActionBar"></style>
 
     <!--CategoryButtonStyle-->

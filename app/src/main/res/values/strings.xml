@@ -9,6 +9,8 @@
 
     <!--CategoryButton-->
     <string name="category_num" translatable="false">%1$s</string>
+    <!--VolumeInfo-->
+    <string name="volume_info_size" translatable="false">%1$s/%2$s</string>
 
     <!--Audio-->
     <string name="audio_files">Audio Files</string>

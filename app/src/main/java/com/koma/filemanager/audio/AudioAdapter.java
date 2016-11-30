@@ -31,11 +31,22 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioViewHol
         mData = data;
     }
 
+    public void setData(ArrayList<AudioFile> data) {
+        if (mData != null) {
+            mData.clear();
+        } else {
+            mData = new ArrayList<>();
+        }
+        mData.addAll(data);
+        notifyDataSetChanged();
+    }
+
     @Override
     public AudioViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, null);
         return new AudioViewHolder(view);
     }
+
 
     @Override
     public int getItemCount() {

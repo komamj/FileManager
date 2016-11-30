@@ -8,6 +8,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,10 +18,12 @@ import android.view.View;
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseActivity;
 import com.koma.filemanager.data.FileRepository;
+import com.koma.filemanager.data.model.Disk;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 import com.koma.filemanager.widget.CategoryButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,10 +35,14 @@ public class MainActivity extends BaseActivity
     private static final String TAG = "MainActivity";
 
     private MainContract.Presenter mPrenter;
+    private DiskAdapter mAdapter;
+    private ArrayList<Disk> mData;
+    @BindView(R.id.volume_info_recyclerview)
+    RecyclerView mVolumeInfoRecyclerView;
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
-    @BindView(R.id.fab)
-    FloatingActionButton mFab;
+    /*@BindView(R.id.fab)
+    FloatingActionButton mFab;*/
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
     @BindView(R.id.nav_view)
@@ -73,11 +81,11 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    @OnClick(R.id.fab)
+    /*@OnClick(R.id.fab)
     void showAction() {
         Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +103,13 @@ public class MainActivity extends BaseActivity
 
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        MainPresenter prenter = new MainPresenter(MainActivity.this, this, FileRepository.getInstance());
+        new MainPresenter(MainActivity.this, this, FileRepository.getInstance());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mVolumeInfoRecyclerView.setLayoutManager(linearLayoutManager);
+        mData = new ArrayList<>();
+        mAdapter = new DiskAdapter(mData);
+        mVolumeInfoRecyclerView.setAdapter(mAdapter);
     }
 
     public void onStart() {
@@ -230,5 +244,15 @@ public class MainActivity extends BaseActivity
     public void refreshApkCounts(String count) {
         LogUtils.i(TAG, "refreshApkCounts count: " + count);
         mCategoryButtons.get(5).setCountText(count);
+    }
+
+    @Override
+    public void refreshAdapter(ArrayList<Disk> disks) {
+        LogUtils.i(TAG, "refreshAdapter");
+        for (int i = 0; i < disks.size(); i++)
+            LogUtils.i(TAG, "refreshAdapter disks :" + disks.get(i).getDescription());
+        if (mAdapter != null) {
+            mAdapter.setData(disks);
+        }
     }
 }

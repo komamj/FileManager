@@ -5,9 +5,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.koma.filemanager.FilemanagerApplication;
+import com.koma.filemanager.FileManagerApplication;
 import com.koma.filemanager.data.model.ApkFile;
 import com.koma.filemanager.data.model.AudioFile;
+import com.koma.filemanager.data.model.Disk;
 import com.koma.filemanager.data.model.DocumentFile;
 import com.koma.filemanager.data.model.ImageFile;
 import com.koma.filemanager.data.model.VideoFile;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Func1;
 
 /**
@@ -40,7 +42,7 @@ public class LocalDataSource implements FileDataSource {
                 .map(new Func1<Uri, String>() {
                     @Override
                     public String call(Uri uri) {
-                        Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                        Cursor cursor = FileManagerApplication.getContext().getContentResolver()
                                 .query(uri, FileCategoryUtils.getMediaProjection(),
                                         null, null, null);
                         if (cursor == null) {
@@ -63,7 +65,7 @@ public class LocalDataSource implements FileDataSource {
         return Observable.just(FileCategoryUtils.getVideoUri()).map(new Func1<Uri, String>() {
             @Override
             public String call(Uri uri) {
-                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                Cursor cursor = FileManagerApplication.getContext().getContentResolver()
                         .query(uri, FileCategoryUtils.getMediaProjection(),
                                 null, null, null);
                 if (cursor == null) {
@@ -86,7 +88,7 @@ public class LocalDataSource implements FileDataSource {
         return Observable.just(FileCategoryUtils.getImageUri()).map(new Func1<Uri, String>() {
             @Override
             public String call(Uri uri) {
-                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                Cursor cursor = FileManagerApplication.getContext().getContentResolver()
                         .query(uri, FileCategoryUtils.getMediaProjection(),
                                 null, null, null);
                 if (cursor == null) {
@@ -109,7 +111,7 @@ public class LocalDataSource implements FileDataSource {
         return Observable.just(FileCategoryUtils.getFileUri()).map(new Func1<Uri, String>() {
             @Override
             public String call(Uri uri) {
-                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                Cursor cursor = FileManagerApplication.getContext().getContentResolver()
                         .query(uri, FileCategoryUtils.getFileProjection(),
                                 FileCategoryUtils.buildDocSelection(), null, null);
                 if (cursor == null) {
@@ -133,7 +135,7 @@ public class LocalDataSource implements FileDataSource {
         return Observable.just(FileCategoryUtils.getFileUri()).map(new Func1<Uri, String>() {
             @Override
             public String call(Uri uri) {
-                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                Cursor cursor = FileManagerApplication.getContext().getContentResolver()
                         .query(uri, FileCategoryUtils.getFileProjection(),
                                 FileCategoryUtils.buildZipSelection(), null, null);
                 if (cursor == null) {
@@ -156,7 +158,7 @@ public class LocalDataSource implements FileDataSource {
         return Observable.just(FileCategoryUtils.getFileUri()).map(new Func1<Uri, String>() {
             @Override
             public String call(Uri uri) {
-                Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                Cursor cursor = FileManagerApplication.getContext().getContentResolver()
                         .query(uri, FileCategoryUtils.getFileProjection(),
                                 FileCategoryUtils.buildApkSelection(), null, null);
                 if (cursor == null) {
@@ -175,12 +177,27 @@ public class LocalDataSource implements FileDataSource {
     }
 
     @Override
+    public Observable<ArrayList<Disk>> getDisks() {
+        LogUtils.i(TAG, "getDisks");
+        Observable<ArrayList<Disk>> observable = Observable.create(new Observable.OnSubscribe<ArrayList<Disk>>() {
+
+            @Override
+            public void call(Subscriber<? super ArrayList<Disk>> subscriber) {
+                LogUtils.i(TAG, "getDisks thread id : " + Thread.currentThread().getId());
+                subscriber.onNext(FileCategoryUtils.getDisks());
+                subscriber.onCompleted();
+            }
+        });
+        return observable;
+    }
+
+    @Override
     public Observable<ArrayList<AudioFile>> getAudioFiles() {
         return Observable.just(FileCategoryUtils.getAudioUri())
                 .map(new Func1<Uri, ArrayList<AudioFile>>() {
                     @Override
                     public ArrayList<AudioFile> call(Uri uri) {
-                        Cursor cursor = FilemanagerApplication.getContext().getContentResolver()
+                        Cursor cursor = FileManagerApplication.getContext().getContentResolver()
                                 .query(uri, FileCategoryUtils.getAudioProjection(),
                                         null, null, null);
                         ArrayList<AudioFile> audioFiles = new ArrayList<>();

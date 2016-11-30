@@ -7,7 +7,10 @@ import android.support.annotation.NonNull;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.data.FileRepository;
+import com.koma.filemanager.data.model.Disk;
 import com.koma.filemanager.util.LogUtils;
+
+import java.util.ArrayList;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -45,6 +48,7 @@ public class MainPresenter implements MainContract.Presenter {
         getDocumentCounts();
         getZipCounts();
         getApkCounts();
+        getDisks();
     }
 
     @Override
@@ -236,6 +240,33 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onNext(String s) {
                         if (mView != null) {
                             mView.refreshApkCounts(s);
+                        }
+                    }
+                });
+        mSubscriptions.add(subscription);
+    }
+
+    @Override
+    public void getDisks() {
+        Subscription subscription = mFileRepository.getDisks().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ArrayList<Disk>>() {
+                    @Override
+                    public void onCompleted() {
+                        LogUtils.i(TAG, "getDisks onCompleted Thread id : "
+                                + Thread.currentThread().getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.i(TAG, "getDisks error :" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<Disk> disks) {
+                        LogUtils.i(TAG, "getDisks onNext");
+                        if (mView != null) {
+                            mView.refreshAdapter(disks);
                         }
                     }
                 });

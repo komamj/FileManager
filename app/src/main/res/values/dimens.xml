@@ -27,4 +27,7 @@
     <!--PopupMenu-->
     <dimen name="pop_horizontal_margin">12dp</dimen>
     <dimen name="pop_padding">5dp</dimen>
+
+    <!--Progressbar-->
+    <dimen name="progress_radius">10dp</dimen>
 </resources>
