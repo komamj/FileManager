@@ -33,7 +33,8 @@
             android:name=".audio.AudioActivity"
             android:label="@string/audio_files"
             android:theme="@style/AudioActivityTheme"></activity>
-        <activity android:name=".audio.AudioPlayerActivity"
+        <activity
+            android:name=".audio.AudioPlayerActivity"
             android:theme="@style/AudioPlayerTheme"></activity>
         <activity
             android:name=".video.VideoActivity"
@@ -42,6 +43,8 @@
             android:name=".image.ImageActivity"
             android:label="@string/image_files"
             android:theme="@style/ImageActivityTheme"></activity>
+
+        <activity android:name=".fileview.FileViewActivity"></activity>
     </application>
 
 </manifest>

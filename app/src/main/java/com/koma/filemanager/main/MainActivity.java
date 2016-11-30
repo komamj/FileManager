@@ -1,6 +1,15 @@
 package com.koma.filemanager.main;
 
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.nfc.cardemulation.HostNfcFService;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -34,7 +43,7 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainContract.View {
     private static final String TAG = "MainActivity";
 
-    private MainContract.Presenter mPrenter;
+    private MainContract.Presenter mPresenter;
     private DiskAdapter mAdapter;
     private ArrayList<Disk> mData;
     @BindView(R.id.volume_info_recyclerview)
@@ -57,8 +66,8 @@ public class MainActivity extends BaseActivity
         switch (view.getId()) {
             case R.id.audio_category:
                 LogUtils.i(TAG, "launch AudioActivity");
-                if (mPrenter != null) {
-                    mPrenter.launchCategoryActivity(R.id.audio_category);
+                if (mPresenter != null) {
+                    mPresenter.launchCategoryActivity(R.id.audio_category);
                 }
                 break;
             case R.id.video_category:
@@ -108,15 +117,27 @@ public class MainActivity extends BaseActivity
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mVolumeInfoRecyclerView.setLayoutManager(linearLayoutManager);
         mData = new ArrayList<>();
-        mAdapter = new DiskAdapter(mData);
+        mAdapter = new DiskAdapter(mContext, mData);
         mVolumeInfoRecyclerView.setAdapter(mAdapter);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_MEDIA_SCANNER_FINISHED);
+        filter.addDataScheme(ContentResolver.SCHEME_FILE);
+        registerReceiver(mReceiver, filter);
+        getContentResolver().registerContentObserver(FileCategoryUtils.getAudioUri(), true, mAudioObserver);
+        LogUtils.i(TAG, "-----------" + FileCategoryUtils.getAudioUri());
+        getContentResolver().registerContentObserver(FileCategoryUtils.getVideoUri(), true, mVideoObserver);
+        LogUtils.i(TAG, "-----------" + FileCategoryUtils.getVideoUri());
+        getContentResolver().registerContentObserver(FileCategoryUtils.getImageUri(), true, mImageObserver);
+        LogUtils.i(TAG, "-----------" + FileCategoryUtils.getImageUri());
+        getContentResolver().registerContentObserver(FileCategoryUtils.getFileUri(), true, mFileObserver);
+        LogUtils.i(TAG, "-----------" + FileCategoryUtils.getFileUri());
     }
 
     public void onStart() {
         super.onStart();
         LogUtils.i(TAG, "onStart");
-        if (mPrenter != null) {
-            mPrenter.subscribe();
+        if (mPresenter != null) {
+            mPresenter.subscribe();
         }
     }
 
@@ -138,15 +159,80 @@ public class MainActivity extends BaseActivity
     public void onDestroy() {
         super.onDestroy();
         LogUtils.i(TAG, "onDestroy");
-        if (mPrenter != null) {
-            mPrenter.unSubscribe();
+        if (mPresenter != null) {
+            mPresenter.unSubscribe();
         }
+        unregisterReceiver(mReceiver);
+        getContentResolver().unregisterContentObserver(mAudioObserver);
+        getContentResolver().unregisterContentObserver(mVideoObserver);
+        getContentResolver().unregisterContentObserver(mImageObserver);
+        getContentResolver().unregisterContentObserver(mFileObserver);
     }
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
     }
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_MEDIA_SCANNER_FINISHED)) {
+                LogUtils.i(TAG, "onReceive action : " + action);
+                if (mPresenter != null) {
+                    mPresenter.getDisks();
+                }
+            }
+        }
+    };
+
+    private final ContentObserver mAudioObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            LogUtils.i(TAG, "Audio uri change so refresh");
+            if (mPresenter != null) {
+                mPresenter.getApkCounts();
+            }
+        }
+    };
+
+    private final ContentObserver mVideoObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            LogUtils.i(TAG, "Video uri change so refresh");
+            if (mPresenter != null) {
+                mPresenter.getVideoCounts();
+            }
+        }
+    };
+
+    private final ContentObserver mImageObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            LogUtils.i(TAG, "Image uri change so refresh");
+            if (mPresenter != null) {
+                mPresenter.getImageCounts();
+            }
+        }
+    };
+
+    private final ContentObserver mFileObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            LogUtils.i(TAG, "File uri change so refresh");
+            if (mPresenter != null) {
+                mPresenter.getDocumentCounts();
+                mPresenter.getZipCounts();
+                mPresenter.getApkCounts();
+            }
+        }
+    };
 
     @Override
     public void onBackPressed() {
@@ -207,7 +293,7 @@ public class MainActivity extends BaseActivity
     @Override
     public void setPresenter(@NonNull MainPresenter presenter) {
         LogUtils.i(TAG, "setPresenter");
-        mPrenter = presenter;
+        mPresenter = presenter;
     }
 
     @Override

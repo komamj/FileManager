@@ -1,5 +1,8 @@
 package com.koma.filemanager.main;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by koma on 11/29/16.
@@ -25,8 +29,10 @@ import butterknife.ButterKnife;
 public class DiskAdapter extends RecyclerView.Adapter<DiskAdapter.VolumeInfoHolder> {
     private static final String TAG = "VolumeInfoAdapter";
     private ArrayList<Disk> mData;
+    private Context mContext;
 
-    public DiskAdapter(ArrayList<Disk> data) {
+    public DiskAdapter(Context context, ArrayList<Disk> data) {
+        mContext = context;
         mData = data;
     }
 
@@ -69,6 +75,15 @@ public class DiskAdapter extends RecyclerView.Adapter<DiskAdapter.VolumeInfoHold
         TextView mVolumeAvailable;
         @BindView(R.id.pb_volume_available)
         ProgressBar mProgressBar;
+
+        @OnClick(R.id.layout_volume_info)
+        void launchFileViewActivity() {
+            Intent intent = new Intent();
+            ComponentName componentName = new ComponentName("com.koma.filemanager",
+                    "com.koma.filemanager.fileview.FileViewActivity");
+            intent.setComponent(componentName);
+            //mContext.startActivity(intent);
+        }
 
         public VolumeInfoHolder(View view) {
             super(view);

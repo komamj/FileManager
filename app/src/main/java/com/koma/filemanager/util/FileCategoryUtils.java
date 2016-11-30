@@ -17,6 +17,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -99,14 +100,15 @@ public final class FileCategoryUtils {
         StorageManager storageManager = (StorageManager) FileManagerApplication.getContext()
                 .getSystemService(Context.STORAGE_SERVICE);
         try {
-            Class<?>[] paramClasses = {};
             Method getVolumes = StorageManager.class.getMethod("getVolumes");
-            Method getVolumeState = StorageManager.class.getMethod("getVolumeState", String.class);
             Method getBestVolumeDescription = StorageManager.class.getMethod("getBestVolumeDescription",
                     Class.forName("android.os.storage.VolumeInfo"));
-
             Object[] params = {};
             List<?> invokes = (List<?>) getVolumes.invoke(storageManager, params);
+            Method getDescriptionComparator = invokes.get(0).getClass().getMethod("getDescriptionComparator");
+
+            getDescriptionComparator.invoke(invokes.get(0), new Object[0]);
+            Collections.sort(invokes, (Comparator) getDescriptionComparator.invoke(invokes.get(0), new Object[0]));
             if (invokes != null) {
                 for (int i = 0; i < invokes.size(); i++) {
                     Object obj = invokes.get(i);
@@ -119,7 +121,6 @@ public final class FileCategoryUtils {
                         totalBytes = file.getTotalSpace();
                         LogUtils.i(TAG, "getDisks totalBytes : " + totalBytes);
                     }
-
                     boolean isMounted = (boolean) isMountedReadable.invoke(obj, new Object[0]);
                     LogUtils.i(TAG, "getDisks isMounted : " + isMounted);
                     if (isMounted) {
