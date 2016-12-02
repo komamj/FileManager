@@ -49,7 +49,7 @@ public class AudioFragment extends BaseFragment implements AudioConstract.View {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAuidoFiles = new ArrayList<>();
-        mAdapter = new AudioAdapter(mAuidoFiles);
+        mAdapter = new AudioAdapter(mContext, mAuidoFiles);
         mRecyclerView.setAdapter(mAdapter);
         return view;
     }
