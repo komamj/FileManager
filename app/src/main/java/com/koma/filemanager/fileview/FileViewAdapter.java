@@ -9,10 +9,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseFile;
+import com.koma.filemanager.helper.FileCountHelper;
 import com.koma.filemanager.util.FileUtils;
+import com.koma.filemanager.util.LocaleUtils;
+import com.koma.filemanager.util.LogUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +29,7 @@ import butterknife.ButterKnife;
  */
 
 public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHolder> {
+    private static final String TAG = "FileViewAdapter";
     private List<BaseFile> mData;
     private Context mContext;
 
@@ -41,9 +47,22 @@ public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         BaseFile baseFile = mData.get(position);
-        holder.mFileImageView.setImageResource(R.mipmap.item_folder);
+        if (baseFile.getIsDirectory()) {
+            Glide.with(mContext).load(R.mipmap.item_folder).into(holder.mFileImageView);
+            holder.mFileImageView.setImageResource(R.mipmap.item_folder);
+            LogUtils.i(TAG, "onBindViewHolder directory : " + baseFile.getFullPath());
+            try {
+                File file = new File(baseFile.getFullPath());
+                holder.mFileSize.setText(LocaleUtils.formatItemCount(file.listFiles().length));
+            } catch (Exception e) {
+                LogUtils.e(TAG, "onBindViewHolder error : " + e.toString());
+            }
+        } else {
+            LogUtils.i(TAG, "onBindViewHolder not directory");
+            holder.mFileImageView.setImageResource(R.mipmap.item_folder);
+            holder.mFileSize.setText(FileUtils.formatFileSize(mData.get(position).getFileSize()));
+        }
         holder.mFileName.setText(baseFile.getFileName());
-        holder.mFileSize.setText(FileUtils.formatFileSize(mData.get(position).getFileSize()));
         holder.mFileModifiedTime.setText(FileUtils.formatFileModifiedTime(mData.get(position).getFileModifiedTime()));
     }
 

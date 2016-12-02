@@ -10,6 +10,7 @@ import java.util.Locale;
  */
 
 public class LocaleUtils {
+    private static final String TAG = "LocaleUtils";
     private static final String LANG_FARSI_FA = "fa";
 
     private static String getLocalLanguage() {
@@ -27,5 +28,18 @@ public class LocaleUtils {
                     FileUtils.formatFileSize(availSpace),
                     FileUtils.formatFileSize(totalSpace));
         }
+    }
+
+    public static String formatItemCount(int count) {
+        if (count <= 1) {
+            LogUtils.i(TAG, "formatItemCount count " + count + String.format(FileManagerApplication.getContext()
+                    .getString(R.string.item_count), count));
+            return String.format(FileManagerApplication.getContext()
+                    .getString(R.string.item_count), count);
+        } else {
+            return String.format(FileManagerApplication.getContext()
+                    .getString(R.string.item_counts), count);
+        }
+
     }
 }

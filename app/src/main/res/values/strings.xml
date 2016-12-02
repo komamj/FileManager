@@ -7,6 +7,10 @@
     <string name="action_search">Search</string>
     <string name="copyright">CopyRight@2016</string>
 
+    <!--Directory subfiles-->
+    <string name="item_count">%1$d item</string>
+    <string name="item_counts">%1$d items</string>
+
     <!--CategoryButton-->
     <string name="category_num" translatable="false">%1$s</string>
     <!--VolumeInfo-->
