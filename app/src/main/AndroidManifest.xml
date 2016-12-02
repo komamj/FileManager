@@ -44,7 +44,9 @@
             android:label="@string/image_files"
             android:theme="@style/ImageActivityTheme"></activity>
 
-        <activity android:name=".fileview.FileViewActivity"></activity>
+        <activity android:name=".fileview.FileViewActivity"
+            android:theme="@style/MainTheme"
+            android:label="@string/phone"></activity>
     </application>
 
 </manifest>

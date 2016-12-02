@@ -1,9 +1,11 @@
 package com.koma.filemanager.audio;
+
 import android.support.annotation.NonNull;
 
 import com.koma.filemanager.data.FileRepository;
 import com.koma.filemanager.data.model.AudioFile;
 import com.koma.filemanager.util.LogUtils;
+
 import java.util.ArrayList;
 
 import rx.Observable;
@@ -24,6 +26,7 @@ public class AudioPresenter implements AudioConstract.Presenter {
     private AudioConstract.View mView;
     @NonNull
     private FileRepository mFileRepository;
+    private Subscription mAudioFilesSubsription;
     private Subscriber mAuidoSubscriber = new Subscriber<ArrayList<AudioFile>>() {
         @Override
         public void onCompleted() {
@@ -58,10 +61,7 @@ public class AudioPresenter implements AudioConstract.Presenter {
     @Override
     public void subscribe() {
         LogUtils.i(TAG, "subscribe");
-        Subscription subscription = getAudioFiles().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mAuidoSubscriber);
-        mSubscription.add(subscription);
+        getAudioFiles();
     }
 
     @Override
@@ -73,7 +73,13 @@ public class AudioPresenter implements AudioConstract.Presenter {
     }
 
     @Override
-    public Observable<ArrayList<AudioFile>> getAudioFiles() {
-        return mFileRepository.getAudioFiles();
+    public void getAudioFiles() {
+        if (mSubscription != null) {
+            mSubscription.remove(mAudioFilesSubsription);
+        }
+        mAudioFilesSubsription = mFileRepository.getAudioFiles().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mAuidoSubscriber);
+        mSubscription.add(mAudioFilesSubsription);
     }
 }

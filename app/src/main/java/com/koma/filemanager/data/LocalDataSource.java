@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.koma.filemanager.FileManagerApplication;
+import com.koma.filemanager.base.BaseFile;
 import com.koma.filemanager.data.model.ApkFile;
 import com.koma.filemanager.data.model.AudioFile;
 import com.koma.filemanager.data.model.Disk;
@@ -13,12 +14,14 @@ import com.koma.filemanager.data.model.DocumentFile;
 import com.koma.filemanager.data.model.ImageFile;
 import com.koma.filemanager.data.model.VideoFile;
 import com.koma.filemanager.data.model.ZipFile;
+import com.koma.filemanager.helper.FileHelper;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -245,5 +248,27 @@ public class LocalDataSource implements FileDataSource {
     @Override
     public Observable<ArrayList<ApkFile>> getApkFiles() {
         return null;
+    }
+
+    @Override
+    public Observable<ArrayList<BaseFile>> getFiles(final String path) {
+        return Observable.create(new Observable.OnSubscribe<ArrayList<BaseFile>>() {
+
+            @Override
+            public void call(Subscriber<? super ArrayList<BaseFile>> subscriber) {
+                File file = new File(path);
+                File[] files = file.listFiles();
+                ArrayList<BaseFile> baseFiles = new ArrayList<>();
+                for (File child : files) {
+                    if (!child.isHidden() && !child.getName().startsWith(".")) {
+                        if (FileHelper.createBaseFile(child) != null) {
+                            baseFiles.add(FileHelper.createBaseFile(child));
+                        }
+                    }
+                }
+                subscriber.onNext(baseFiles);
+                subscriber.onCompleted();
+            }
+        });
     }
 }

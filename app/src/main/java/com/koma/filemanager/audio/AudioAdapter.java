@@ -55,9 +55,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioViewHol
 
     @Override
     public void onBindViewHolder(AudioViewHolder holder, int position) {
-        if (holder.mFileName == null) {
-            LogUtils.i(TAG, "onBindViewHolder");
-        }
+        holder.mFileImage.setImageResource(R.mipmap.item_audio);
         holder.mFileName.setText(mData.get(position).getFileName());
         holder.mFileSize.setText(FileUtils.formatFileSize(mData.get(position).getFileSize()));
         holder.mFileModifiedTime.setText(FileUtils.formatFileModifiedTime(mData.get(position).getFileModifiedTime()));

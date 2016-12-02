@@ -20,6 +20,6 @@ public interface AudioConstract {
     }
 
     interface Presenter extends BasePresenter {
-        Observable<ArrayList<AudioFile>> getAudioFiles();
+        void getAudioFiles();
     }
 }

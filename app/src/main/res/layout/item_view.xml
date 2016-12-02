@@ -36,8 +36,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:gravity="center"
                 android:padding="1dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/item_audio" />
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="match_parent"

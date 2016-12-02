@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainContract.View {
     private static final String TAG = "MainActivity";
 
-    private MainContract.Presenter mPresenter;
+    private MainPresenter mPresenter;
     private DiskAdapter mAdapter;
     private ArrayList<Disk> mData;
     @BindView(R.id.volume_info_recyclerview)
@@ -194,7 +194,7 @@ public class MainActivity extends BaseActivity
             super.onChange(selfChange);
             LogUtils.i(TAG, "Audio uri change so refresh");
             if (mPresenter != null) {
-                mPresenter.getApkCounts();
+                mPresenter.getAudioCounts();
             }
         }
     };

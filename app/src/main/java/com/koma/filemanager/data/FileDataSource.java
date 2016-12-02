@@ -1,5 +1,6 @@
 package com.koma.filemanager.data;
 
+import com.koma.filemanager.base.BaseFile;
 import com.koma.filemanager.data.model.ApkFile;
 import com.koma.filemanager.data.model.AudioFile;
 import com.koma.filemanager.data.model.Disk;
@@ -43,4 +44,5 @@ public interface FileDataSource {
 
     Observable<ArrayList<ApkFile>> getApkFiles();
 
+    Observable<ArrayList<BaseFile>> getFiles(String path);
 }

@@ -33,4 +33,7 @@ public final class Constants {
 
     //Formate Date
     public static final String FILE_MODIFIED_TIME_FORMAT = "yyyyMMdd";
+
+    //FileViewActivity
+    public static final String EXTRA_FILE_DIRECTORY = "extra_file_directory";
 }

@@ -29,6 +29,9 @@
 
     <!--Apk-->
     <string name="apk_files">Apk Files</string>
+
+    <!--FileView-->
+    <string name="phone">Phone</string>
     <!--SortType-->
     <string name="sort_by_type">Type</string>
     <string name="sort_by_name">Name</string>

@@ -1,6 +1,7 @@
 package com.koma.filemanager.data;
 
 import com.koma.filemanager.FileManagerApplication;
+import com.koma.filemanager.base.BaseFile;
 import com.koma.filemanager.data.model.ApkFile;
 import com.koma.filemanager.data.model.AudioFile;
 import com.koma.filemanager.data.model.Disk;
@@ -99,5 +100,10 @@ public class FileRepository implements FileDataSource {
     @Override
     public Observable<ArrayList<ApkFile>> getApkFiles() {
         return null;
+    }
+
+    @Override
+    public Observable<ArrayList<BaseFile>> getFiles(String path) {
+        return mLocalDataSource.getFiles(path);
     }
 }

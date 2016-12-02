@@ -31,6 +31,8 @@ public class MainPresenter implements MainContract.Presenter {
     private CompositeSubscription mSubscriptions;
     @NonNull
     private FileRepository mFileRepository;
+    private Subscription mAudioCountsSubscription, mVideoCountsSubscription, mImageCountsSubscription,
+            mDoumentCountsSubscription, mZipCountsSubscription, mApkCountsSubscription, mDisksSubsription;
 
     public MainPresenter(Context context, @NonNull MainContract.View view, @NonNull FileRepository fileRepository) {
         mContext = context;
@@ -88,7 +90,10 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void getAudioCounts() {
-        Subscription subscription = mFileRepository.getAuidoCounts().subscribeOn(Schedulers.io())
+        if (mSubscriptions != null && mAudioCountsSubscription != null) {
+            mSubscriptions.remove(mVideoCountsSubscription);
+        }
+        mAudioCountsSubscription = mFileRepository.getAuidoCounts().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -109,12 +114,15 @@ public class MainPresenter implements MainContract.Presenter {
                         }
                     }
                 });
-        mSubscriptions.add(subscription);
+        mSubscriptions.add(mAudioCountsSubscription);
     }
 
     @Override
     public void getVideoCounts() {
-        Subscription subscription = mFileRepository.getVideoCounts().subscribeOn(Schedulers.io())
+        if (mSubscriptions != null && mVideoCountsSubscription != null) {
+            mSubscriptions.remove(mVideoCountsSubscription);
+        }
+        mVideoCountsSubscription = mFileRepository.getVideoCounts().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -135,13 +143,16 @@ public class MainPresenter implements MainContract.Presenter {
                         }
                     }
                 });
-        mSubscriptions.add(subscription);
+        mSubscriptions.add(mVideoCountsSubscription);
 
     }
 
     @Override
     public void getImageCounts() {
-        Subscription subscription = mFileRepository.getImageCounts().subscribeOn(Schedulers.io())
+        if (mSubscriptions != null && mImageCountsSubscription != null) {
+            mSubscriptions.remove(mImageCountsSubscription);
+        }
+        mImageCountsSubscription = mFileRepository.getImageCounts().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -162,12 +173,15 @@ public class MainPresenter implements MainContract.Presenter {
                         }
                     }
                 });
-        mSubscriptions.add(subscription);
+        mSubscriptions.add(mImageCountsSubscription);
     }
 
     @Override
     public void getDocumentCounts() {
-        Subscription subscription = mFileRepository.getDocumentsCounts()
+        if (mSubscriptions != null && mDoumentCountsSubscription != null) {
+            mSubscriptions.remove(mDoumentCountsSubscription);
+        }
+        mDoumentCountsSubscription = mFileRepository.getDocumentsCounts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
@@ -189,12 +203,15 @@ public class MainPresenter implements MainContract.Presenter {
                         }
                     }
                 });
-        mSubscriptions.add(subscription);
+        mSubscriptions.add(mDoumentCountsSubscription);
     }
 
     @Override
     public void getZipCounts() {
-        Subscription subscription = mFileRepository.getZipCounts()
+        if (mSubscriptions != null && mZipCountsSubscription != null) {
+            mSubscriptions.remove(mZipCountsSubscription);
+        }
+        mZipCountsSubscription = mFileRepository.getZipCounts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
@@ -216,12 +233,15 @@ public class MainPresenter implements MainContract.Presenter {
                         }
                     }
                 });
-        mSubscriptions.add(subscription);
+        mSubscriptions.add(mZipCountsSubscription);
     }
 
     @Override
     public void getApkCounts() {
-        Subscription subscription = mFileRepository.getApkCounts()
+        if (mSubscriptions != null && mApkCountsSubscription != null) {
+            mSubscriptions.remove(mApkCountsSubscription);
+        }
+        mApkCountsSubscription = mFileRepository.getApkCounts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
@@ -243,12 +263,15 @@ public class MainPresenter implements MainContract.Presenter {
                         }
                     }
                 });
-        mSubscriptions.add(subscription);
+        mSubscriptions.add(mApkCountsSubscription);
     }
 
     @Override
     public void getDisks() {
-        Subscription subscription = mFileRepository.getDisks().subscribeOn(Schedulers.io())
+        if (mSubscriptions != null && mDisksSubsription != null) {
+            mSubscriptions.remove(mDisksSubsription);
+        }
+        mDisksSubsription = mFileRepository.getDisks().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ArrayList<Disk>>() {
                     @Override
@@ -270,6 +293,6 @@ public class MainPresenter implements MainContract.Presenter {
                         }
                     }
                 });
-        mSubscriptions.add(subscription);
+        mSubscriptions.add(mDisksSubsription);
     }
 }

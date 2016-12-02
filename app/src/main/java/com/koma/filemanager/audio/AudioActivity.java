@@ -1,12 +1,15 @@
 package com.koma.filemanager.audio;
 
+import android.database.ContentObserver;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseSwipeBackActivity;
 import com.koma.filemanager.data.FileRepository;
+import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 
 import butterknife.BindView;
@@ -19,6 +22,7 @@ public class AudioActivity extends BaseSwipeBackActivity {
     private static final String TAG = "AudioActivity";
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
+    AudioPresenter mPresenter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +38,21 @@ public class AudioActivity extends BaseSwipeBackActivity {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content, audioFragment).commit();
         }
-        AudioPresenter audioPresenter = new AudioPresenter(audioFragment, FileRepository.getInstance());
-        audioPresenter.subscribe();
+        mPresenter = new AudioPresenter(audioFragment, FileRepository.getInstance());
+        mPresenter.subscribe();
+        getContentResolver().registerContentObserver(FileCategoryUtils.getAudioUri(), true, mAudioObserver);
     }
+
+    private final ContentObserver mAudioObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            LogUtils.i(TAG, "Audio uri change so refresh");
+            if (mPresenter != null) {
+                mPresenter.getAudioFiles();
+            }
+        }
+    };
 
     protected void onStart() {
         super.onStart();
@@ -61,6 +77,9 @@ public class AudioActivity extends BaseSwipeBackActivity {
     protected void onDestroy() {
         super.onDestroy();
         LogUtils.i(TAG, "onDestroy");
+        if (mPresenter != null) {
+            mPresenter.unSubscribe();
+        }
     }
 
     @Override
