@@ -11,6 +11,8 @@ An android open source project about "FileManager".
 Introduction：
 ---
 主界面暂时分为两部分：
+
 1.分类文件总览
+
 2.挂在设备信息总览
 
