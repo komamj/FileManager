@@ -37,6 +37,7 @@
     <!--FileView-->
     <string name="phone">Phone</string>
     <!--SortType-->
+    <string name="sort_type">Sort Type</string>
     <string name="sort_by_type">Type</string>
     <string name="sort_by_name">Name</string>
     <string name="sort_by_size">Size</string>

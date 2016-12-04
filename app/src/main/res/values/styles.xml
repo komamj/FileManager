@@ -71,7 +71,7 @@
         <item name="android:layout_marginEnd">@dimen/pop_horizontal_margin</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:padding">@dimen/pop_padding</item>
-        <item name="android:src">@drawable/ic_more_vert_black_24dp</item>
+        <item name="android:src">@drawable/ic_more_vert</item>
     </style>
 
 </resources>

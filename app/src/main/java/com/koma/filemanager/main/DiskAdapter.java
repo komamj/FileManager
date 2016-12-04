@@ -32,7 +32,8 @@ import rx.Subscriber;
  * Created by koma on 11/29/16.
  */
 
-public class DiskAdapter extends RecyclerView.Adapter<DiskAdapter.VolumeInfoHolder> {
+public class
+DiskAdapter extends RecyclerView.Adapter<DiskAdapter.VolumeInfoHolder> {
     private static final String TAG = "VolumeInfoAdapter";
     private ArrayList<Disk> mData;
     private Context mContext;

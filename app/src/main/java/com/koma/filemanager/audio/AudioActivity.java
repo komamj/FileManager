@@ -4,9 +4,14 @@ import android.database.ContentObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.koma.filemanager.R;
+import com.koma.filemanager.base.BaseMenuActivity;
 import com.koma.filemanager.base.BaseSwipeBackActivity;
 import com.koma.filemanager.data.FileRepository;
 import com.koma.filemanager.util.FileCategoryUtils;
@@ -18,13 +23,13 @@ import butterknife.BindView;
  * Created by koma on 11/19/16.
  */
 
-public class AudioActivity extends BaseSwipeBackActivity {
+public class AudioActivity extends BaseMenuActivity {
     private static final String TAG = "AudioActivity";
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
     AudioPresenter mPresenter;
 
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtils.i(TAG, "onCreate");
         init();
@@ -86,5 +91,23 @@ public class AudioActivity extends BaseSwipeBackActivity {
     protected int getLayoutId() {
         return R.layout.audio_activity;
     }
+    @Override
+    protected void sortByType() {
 
+    }
+
+    @Override
+    protected void sortByName() {
+
+    }
+
+    @Override
+    protected void sortBySize() {
+
+    }
+
+    @Override
+    protected void sortByDate() {
+
+    }
 }

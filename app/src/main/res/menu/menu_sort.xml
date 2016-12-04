@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sort_by_type"
+        android:title="@string/sort_by_type" />
+    <item
+        android:id="@+id/sort_by_name"
+        android:title="@string/sort_by_name" />
+    <item
+        android:id="@+id/sort_by_size"
+        android:title="@string/sort_by_size" />
+    <item
+        android:id="@+id/sort_by_date"
+        android:title="@string/sort_by_date" />
+</menu>
