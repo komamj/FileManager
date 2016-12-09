@@ -20,8 +20,6 @@ import butterknife.BindView;
 
 public class AudioActivity extends BaseMenuActivity {
     private static final String TAG = "AudioActivity";
-    @BindView(R.id.toolbar)
-    Toolbar mToolBar;
     AudioPresenter mPresenter;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +29,6 @@ public class AudioActivity extends BaseMenuActivity {
     }
 
     private void init() {
-        setSupportActionBar(mToolBar);
         AudioFragment audioFragment = (AudioFragment) getSupportFragmentManager().findFragmentById(R.id.content);
         if (audioFragment == null) {
             audioFragment = new AudioFragment();

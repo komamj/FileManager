@@ -80,12 +80,6 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioViewHol
         TextView mFileSize;
         @BindView(R.id.tv_file_modified_time)
         TextView mFileModifiedTime;
-        @BindView(R.id.popup_menu)
-        ImageView mPopupMenu;
-
-        @OnClick(R.id.popup_menu)
-        void popMenu() {
-        }
 
         public AudioViewHolder(View view) {
             super(view);

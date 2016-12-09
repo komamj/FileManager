@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -49,12 +51,23 @@ public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        holder.mContainView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mSelectMode) {
+                    return true;
+                }
+                mSelectMode = true;
+                notifyDataSetChanged();
+                holder.mCheckBox.setChecked(true);
+                LogUtils.i(TAG, "position : " + position);
+                return true;
+            }
+        });
         BaseFile baseFile = mData.get(position);
         if (baseFile.getIsDirectory()) {
             Glide.with(mContext).load(R.mipmap.item_folder).into(holder.mFileImageView);
-            holder.mFileImageView.setImageResource(R.mipmap.item_folder);
-            LogUtils.i(TAG, "onBindViewHolder directory : " + baseFile.getFullPath());
             try {
                 File file = new File(baseFile.getFullPath());
                 holder.mFileSize.setText(LocaleUtils.formatItemCount(file.listFiles().length));
@@ -62,12 +75,17 @@ public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHo
                 LogUtils.e(TAG, "onBindViewHolder error : " + e.toString());
             }
         } else {
-            LogUtils.i(TAG, "onBindViewHolder not directory");
-            holder.mFileImageView.setImageResource(R.mipmap.item_folder);
+            Glide.with(mContext).load(R.mipmap.item_folder).into(holder.mFileImageView);
             holder.mFileSize.setText(FileUtils.formatFileSize(mData.get(position).getFileSize()));
         }
         if (mSelectMode) {
             holder.mCheckBox.setVisibility(View.VISIBLE);
+            holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    LogUtils.i(TAG, "onCheckedChanged isChecked : " + isChecked);
+                }
+            });
         }
         holder.mFileName.setText(baseFile.getFileName());
         holder.mFileModifiedTime.setText(FileUtils.formatFileModifiedTime(mData.get(position).getFileModifiedTime()));
@@ -90,24 +108,21 @@ public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHo
         @BindView(R.id.tv_file_modified_time)
         TextView mFileModifiedTime;
 
-        @OnLongClick(R.id.item_contain_view)
-        public boolean switchSelectMode() {
+        @BindView(R.id.item_contain_view)
+        RelativeLayout mContainView;
+
+        /*public boolean switchSelectMode() {
             LogUtils.i(TAG, "OnLongClick");
             if (mSelectMode) {
                 return true;
             }
             mSelectMode = true;
-            notifyItemRangeChanged(0, getItemCount() - 1);
+            notifyDataSetChanged();
+            LogUtils.i(TAG, "item count : " + (getItemCount() - 1));
 
-            mCheckBox.setChecked(true);
             return true;
         }
-
-        @OnClick(R.id.popup_menu)
-        public void popup() {
-            LogUtils.i(TAG, "onClick");
-        }
-
+*/
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

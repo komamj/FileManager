@@ -18,8 +18,6 @@ import butterknife.BindView;
 
 public class FileViewActivity extends BaseMenuActivity {
     private static final String TAG = "FileViewActivity";
-    @BindView(R.id.toolbar)
-    Toolbar mToolBar;
     FileViewPresenter mPresenter;
     private String mPath;
 
@@ -30,7 +28,6 @@ public class FileViewActivity extends BaseMenuActivity {
     }
 
     private void init() {
-        setSupportActionBar(mToolBar);// 传递默认路径，如果没有，则以默认的内置存储卡的地址
         if (getIntent().getExtras() != null) {
             mPath = getIntent().getStringExtra(Constants.EXTRA_FILE_DIRECTORY);
             LogUtils.i(TAG, "init mPath : " + mPath);

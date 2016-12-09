@@ -3,18 +3,20 @@ package com.koma.filemanager.base;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.util.LogUtils;
+
+import butterknife.BindView;
 
 /**
  * Created by koma on 2016/12/4.
@@ -23,19 +25,37 @@ import com.koma.filemanager.util.LogUtils;
 public abstract class BaseMenuActivity extends BaseSwipeBackActivity {
     private static final String TAG = "BaseMenuActivity";
     protected SearchView mSearchView;
-    protected MenuItem mSortMenu, mSearchItem;
+    protected MenuItem mSortMenu, mSearchItem, mMoreMenu;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtils.i(TAG, "onCreate");
+        init();
     }
+
+    private void init() {
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
+        mToolbar.setNavigationOnClickListener(mNavigationListener);
+    }
+
+    private View.OnClickListener mNavigationListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            LogUtils.i(TAG, "Navigation is clicked ");
+            finish();
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.common_menu, menu);
         mSortMenu = menu.findItem(R.id.action_sort);
+        mMoreMenu = menu.findItem(R.id.action_more);
         initSearchView(menu);
         return true;
     }
@@ -100,6 +120,9 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity {
                             if (mSortMenu != null) {
                                 mSortMenu.setVisible(false);
                             }
+                            if (mMoreMenu != null) {
+                                mMoreMenu.setVisible(false);
+                            }
                             return true;
                         }
 
@@ -108,6 +131,9 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity {
                             LogUtils.i(TAG, "onMenuItemActionCollapse");
                             if (mSortMenu != null) {
                                 mSortMenu.setVisible(true);
+                            }
+                            if (mMoreMenu != null) {
+                                mMoreMenu.setVisible(true);
                             }
                             return true;
                         }

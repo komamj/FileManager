@@ -32,8 +32,6 @@ public class LocaleUtils {
 
     public static String formatItemCount(int count) {
         if (count <= 1) {
-            LogUtils.i(TAG, "formatItemCount count " + count + String.format(FileManagerApplication.getContext()
-                    .getString(R.string.item_count), count));
             return String.format(FileManagerApplication.getContext()
                     .getString(R.string.item_count), count);
         } else {

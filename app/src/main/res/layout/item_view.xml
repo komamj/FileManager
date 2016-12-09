@@ -44,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_toEndOf="@+id/iv_file_image"
-                android:layout_toStartOf="@+id/popup_menu"
                 android:orientation="vertical"
                 android:paddingStart="12dp"
                 android:paddingTop="5dp">
@@ -87,10 +86,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/popup_menu"
-                style="@style/PopupMenuStyle" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

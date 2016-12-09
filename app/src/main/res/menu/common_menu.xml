@@ -11,5 +11,10 @@
         android:icon="@drawable/ic_search"
         android:title="@string/action_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="collapseActionView|always"/>
+        app:showAsAction="collapseActionView|always" />
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_more_vert"
+        android:title="@string/menu_more"
+        app:showAsAction="always" />
 </menu>

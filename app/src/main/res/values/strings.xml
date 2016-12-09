@@ -36,6 +36,8 @@
 
     <!--FileView-->
     <string name="phone">Phone</string>
+    <!--Menu Title-->
+    <string name="menu_more">More</string>
     <!--SortType-->
     <string name="sort_type">Sort Type</string>
     <string name="sort_by_type">Type</string>

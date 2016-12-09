@@ -22,8 +22,6 @@ import butterknife.BindView;
 
 public class VideoActivity extends BaseMenuActivity {
     private static final String TAG = "VideoActivity";
-    @BindView(R.id.toolbar)
-    Toolbar mToolBar;
     private VideoContract.Presenter mPresenter;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +31,6 @@ public class VideoActivity extends BaseMenuActivity {
     }
 
     private void init() {
-        setSupportActionBar(mToolBar);
         VideoFragment videoFragment = (VideoFragment) getSupportFragmentManager().findFragmentById(R.id.content);
         if (videoFragment == null) {
             videoFragment = new VideoFragment();
