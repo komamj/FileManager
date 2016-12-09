@@ -24,6 +24,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MainPresenter implements MainContract.Presenter {
     private static final String TAG = "MainPresenter";
+    private static final String PACKAGE_NAME = "com.koma.filemanager";
     private Context mContext;
     @NonNull
     private MainContract.View mView;
@@ -61,30 +62,36 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void launchCategoryActivity(int resourceId) {
         Intent intent = new Intent();
+        ComponentName componentName = null;
         switch (resourceId) {
             case R.id.audio_category:
-                ComponentName componentName = new ComponentName("com.koma.filemanager",
+                componentName = new ComponentName(PACKAGE_NAME,
                         "com.koma.filemanager.audio.AudioActivity");
-                intent.setComponent(componentName);
                 break;
             case R.id.video_category:
-                LogUtils.i(TAG, "launch VideoActivity");
+                componentName = new ComponentName(PACKAGE_NAME,
+                        "com.koma.filemanager.video.VideoActivity");
                 break;
             case R.id.image_category:
-                LogUtils.i(TAG, "launch ImageActivity");
+                componentName = new ComponentName(PACKAGE_NAME,
+                        "com.koma.filemanager.image.ImageActivity");
                 break;
             case R.id.document_category:
-                LogUtils.i(TAG, "launch DocumentActivity");
+                componentName = new ComponentName(PACKAGE_NAME,
+                        "com.koma.filemanager.document.DocumentActivity");
                 break;
             case R.id.zip_category:
-                LogUtils.i(TAG, "launch ZipActivity");
+                componentName = new ComponentName(PACKAGE_NAME,
+                        "com.koma.filemanager.zip.ZipActivity");
                 break;
             case R.id.apk_category:
-                LogUtils.i(TAG, "launch ApkActivity");
+                componentName = new ComponentName(PACKAGE_NAME,
+                        "com.koma.filemanager.apk.ApkActivity");
                 break;
             default:
                 LogUtils.i(TAG, "launchCategoryActivity  no match resourceId");
         }
+        intent.setComponent(componentName);
         mContext.startActivity(intent);
     }
 

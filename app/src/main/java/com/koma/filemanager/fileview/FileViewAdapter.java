@@ -23,6 +23,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemLongClick;
+import butterknife.OnLongClick;
 
 /**
  * Created by koma on 12/1/16.
@@ -32,6 +35,7 @@ public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHo
     private static final String TAG = "FileViewAdapter";
     private List<BaseFile> mData;
     private Context mContext;
+    private boolean mSelectMode = false;
 
     public FileViewAdapter(Context context, ArrayList<BaseFile> data) {
         mContext = context;
@@ -62,6 +66,9 @@ public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHo
             holder.mFileImageView.setImageResource(R.mipmap.item_folder);
             holder.mFileSize.setText(FileUtils.formatFileSize(mData.get(position).getFileSize()));
         }
+        if (mSelectMode) {
+            holder.mCheckBox.setVisibility(View.VISIBLE);
+        }
         holder.mFileName.setText(baseFile.getFileName());
         holder.mFileModifiedTime.setText(FileUtils.formatFileModifiedTime(mData.get(position).getFileModifiedTime()));
     }
@@ -82,6 +89,24 @@ public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHo
         TextView mFileSize;
         @BindView(R.id.tv_file_modified_time)
         TextView mFileModifiedTime;
+
+        @OnLongClick(R.id.item_contain_view)
+        public boolean switchSelectMode() {
+            LogUtils.i(TAG, "OnLongClick");
+            if (mSelectMode) {
+                return true;
+            }
+            mSelectMode = true;
+            notifyItemRangeChanged(0, getItemCount() - 1);
+
+            mCheckBox.setChecked(true);
+            return true;
+        }
+
+        @OnClick(R.id.popup_menu)
+        public void popup() {
+            LogUtils.i(TAG, "onClick");
+        }
 
         public ViewHolder(View view) {
             super(view);

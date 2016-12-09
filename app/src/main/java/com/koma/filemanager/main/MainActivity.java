@@ -6,13 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
-import android.nfc.cardemulation.HostNfcFService;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -50,8 +46,6 @@ public class MainActivity extends BaseActivity
     RecyclerView mVolumeInfoRecyclerView;
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
-    /*@BindView(R.id.fab)
-    FloatingActionButton mFab;*/
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
     @BindView(R.id.nav_view)
@@ -71,30 +65,33 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case R.id.video_category:
-                LogUtils.i(TAG, "launch VideoActivity");
+                if (mPresenter != null) {
+                    mPresenter.launchCategoryActivity(R.id.video_category);
+                }
                 break;
             case R.id.image_category:
-                LogUtils.i(TAG, "launch ImageActivity");
+                if (mPresenter != null) {
+                    mPresenter.launchCategoryActivity(R.id.image_category);
+                }
                 break;
             case R.id.document_category:
-                LogUtils.i(TAG, "launch DocumentActivity");
+                if (mPresenter != null) {
+                    mPresenter.launchCategoryActivity(R.id.document_category);
+                }
                 break;
             case R.id.zip_category:
-                LogUtils.i(TAG, "launch ZipActivity");
+                if (mPresenter != null) {
+                    mPresenter.launchCategoryActivity(R.id.zip_category);
+                }
                 break;
             case R.id.apk_category:
-                LogUtils.i(TAG, "launch ApkActivity");
+                if (mPresenter != null) {
+                    mPresenter.launchCategoryActivity(R.id.apk_category);
+                }
                 break;
             default:
-                LogUtils.i(TAG, "default");
         }
     }
-
-    /*@OnClick(R.id.fab)
-    void showAction() {
-        Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

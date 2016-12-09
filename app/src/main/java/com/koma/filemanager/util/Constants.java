@@ -27,8 +27,9 @@ public final class Constants {
     };
 
     public static final String[] AUDIO_PROJECTION = new String[]{
-            MediaStore.Audio.AudioColumns.DATA, MediaStore.Audio.AudioColumns.DISPLAY_NAME,
-            MediaStore.Audio.AudioColumns.SIZE, MediaStore.Audio.AudioColumns.DATE_MODIFIED,
+            MediaStore.Audio.AudioColumns.ALBUM_ID, MediaStore.Audio.AudioColumns.DATA,
+            MediaStore.Audio.AudioColumns.DISPLAY_NAME,
+            MediaStore.Audio.AudioColumns.SIZE, MediaStore.Audio.AudioColumns.DATE_MODIFIED
     };
 
     //Formate Date

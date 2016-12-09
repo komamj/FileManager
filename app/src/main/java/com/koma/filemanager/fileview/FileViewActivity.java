@@ -1,19 +1,14 @@
 package com.koma.filemanager.fileview;
 
-import android.database.ContentObserver;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 
 import com.koma.filemanager.R;
-import com.koma.filemanager.base.BaseSwipeBackActivity;
+import com.koma.filemanager.base.BaseMenuActivity;
 import com.koma.filemanager.data.FileRepository;
-import com.koma.filemanager.helper.BusProvider;
-import com.koma.filemanager.helper.event.PathEvent;
 import com.koma.filemanager.util.Constants;
 import com.koma.filemanager.util.LogUtils;
-import com.squareup.otto.Subscribe;
 
 import butterknife.BindView;
 
@@ -21,7 +16,7 @@ import butterknife.BindView;
  * Created by koma on 11/30/16.
  */
 
-public class FileViewActivity extends BaseSwipeBackActivity {
+public class FileViewActivity extends BaseMenuActivity {
     private static final String TAG = "FileViewActivity";
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
@@ -70,6 +65,26 @@ public class FileViewActivity extends BaseSwipeBackActivity {
     public void onResume() {
         super.onResume();
         LogUtils.i(TAG, "onResume");
+    }
+
+    @Override
+    protected void sortByType() {
+        LogUtils.i(TAG, "sortByType");
+    }
+
+    @Override
+    protected void sortByName() {
+        LogUtils.i(TAG, "sortByName");
+    }
+
+    @Override
+    protected void sortBySize() {
+        LogUtils.i(TAG, "sortBySize");
+    }
+
+    @Override
+    protected void sortByDate() {
+        LogUtils.i(TAG, "sortByDate");
     }
 
 

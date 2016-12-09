@@ -2,12 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_sort"
-        android:title="@string/sort_type"
         android:icon="@drawable/ic_filter_list"
+        android:title="@string/sort_type"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_search"
+        android:animateLayoutChanges="true"
         android:icon="@drawable/ic_search"
         android:title="@string/action_search"
-        app:showAsAction="always" />
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="collapseActionView|always"/>
 </menu>

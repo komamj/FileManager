@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.koma.filemanager.R;
 import com.koma.filemanager.data.model.AudioFile;
+import com.koma.filemanager.helper.MeidaHelper;
 import com.koma.filemanager.util.FileUtils;
 import com.koma.filemanager.util.LogUtils;
 
@@ -59,7 +60,9 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioViewHol
 
     @Override
     public void onBindViewHolder(AudioViewHolder holder, int position) {
-        Glide.with(mContext).load(mData.get(position).getFullPath()).placeholder(R.mipmap.item_audio)
+        LogUtils.i(TAG, "onBindViewHolder :" + mData.get(position).getFullPath());
+        Glide.with(mContext).load(MeidaHelper.getAlbumArtUri(mData.get(position).getAlbumId()))
+                .placeholder(R.mipmap.item_audio)
                 .crossFade(1000).into(holder.mFileImage);
         holder.mFileName.setText(mData.get(position).getFileName());
         holder.mFileSize.setText(FileUtils.formatFileSize(mData.get(position).getFileSize()));

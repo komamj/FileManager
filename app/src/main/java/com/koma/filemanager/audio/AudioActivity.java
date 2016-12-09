@@ -4,15 +4,10 @@ import android.database.ContentObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseMenuActivity;
-import com.koma.filemanager.base.BaseSwipeBackActivity;
 import com.koma.filemanager.data.FileRepository;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
@@ -89,7 +84,7 @@ public class AudioActivity extends BaseMenuActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.audio_activity;
+        return R.layout.category_activity;
     }
     @Override
     protected void sortByType() {

@@ -9,6 +9,7 @@ import java.util.Date;
  */
 
 public class AudioFile extends BaseFile {
+    private long mAlbumId;
     private String mDisplayName;
 
     public AudioFile() {
@@ -27,5 +28,13 @@ public class AudioFile extends BaseFile {
 
     public String getDisplayTime() {
         return mDisplayName;
+    }
+
+    public long getAlbumId() {
+        return mAlbumId;
+    }
+
+    public void setAlbumId(long albumId) {
+        mAlbumId = albumId;
     }
 }

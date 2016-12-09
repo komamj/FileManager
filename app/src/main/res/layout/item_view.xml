@@ -15,6 +15,7 @@
         app:cardElevation="@dimen/cardview_padding">
 
         <RelativeLayout
+            android:id="@+id/item_contain_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -23,8 +24,9 @@
             <CheckBox
                 android:id="@+id/select_checkbox"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_vertical|start"
                 android:gravity="center"
                 android:visibility="gone" />
 
@@ -32,8 +34,7 @@
                 android:id="@+id/iv_file_image"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_toEndOf="@id/select_checkbox"
                 android:gravity="center"
                 android:padding="1dp"
                 android:scaleType="centerCrop" />

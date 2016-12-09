@@ -209,6 +209,7 @@ public class LocalDataSource implements FileDataSource {
                                 while (cursor.moveToNext()) {
                                     File file = new File(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA)));
                                     AudioFile audioFile = new AudioFile();
+                                    audioFile.setAlbumId(cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ALBUM_ID)));
                                     audioFile.setFileName(file.getName());
                                     audioFile.setParent(file.getParent());
                                     audioFile.setDisplayName(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DISPLAY_NAME)));
