@@ -52,4 +52,8 @@
     <string name="delete">Delete</string>
     <string name="select_all">Select All</string>
     <string name="deselect_all">Deselect_All</string>
+
+    <!--UnCompress-->
+    <string name="uncompress">UnCompress</string>
+    <string name="uncompress_to">UnCompress To</string>
 </resources>

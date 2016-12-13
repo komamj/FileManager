@@ -20,11 +20,13 @@
         <activity
             android:name=".main.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/MainTheme"></activity>
 
         <activity
             android:name=".splash.SplashActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,25 +36,50 @@
         </activity>
 
         <activity
+            android:name=".filecategory.FileCategoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainTheme"></activity>
+
+        <activity
             android:name=".audio.AudioActivity"
             android:label="@string/audio_files"
+            android:screenOrientation="portrait"
             android:theme="@style/AudioActivityTheme"></activity>
         <activity
             android:name=".audio.AudioPlayerActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AudioPlayerTheme"></activity>
         <activity
             android:name=".video.VideoActivity"
             android:label="@string/video_files"
+            android:screenOrientation="portrait"
             android:theme="@style/MainTheme"></activity>
         <activity
             android:name=".image.ImageActivity"
             android:label="@string/image_files"
+            android:screenOrientation="portrait"
             android:theme="@style/ImageActivityTheme"></activity>
 
         <activity
             android:name=".fileview.FileViewActivity"
             android:label="@string/phone"
+            android:screenOrientation="portrait"
             android:theme="@style/MainTheme"></activity>
+
+        <activity
+            android:name=".archive.ArchiveActivity"
+            android:label="@string/uncompress"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:mimeType="application/zip" />
+                <data android:mimeType="application/x-rar-compressed" />
+
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

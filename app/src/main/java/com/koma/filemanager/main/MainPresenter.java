@@ -3,11 +3,13 @@ package com.koma.filemanager.main;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.data.FileRepository;
 import com.koma.filemanager.data.model.Disk;
+import com.koma.filemanager.util.Constants;
 import com.koma.filemanager.util.LogUtils;
 
 import java.util.ArrayList;
@@ -82,7 +84,8 @@ public class MainPresenter implements MainContract.Presenter {
                 break;
             case R.id.zip_category:
                 componentName = new ComponentName(PACKAGE_NAME,
-                        "com.koma.filemanager.zip.ZipActivity");
+                        "com.koma.filemanager.filecategory.FileCategoryActivity");
+                intent.putExtra(Constants.FILE_CATEGORY, "zip");
                 break;
             case R.id.apk_category:
                 componentName = new ComponentName(PACKAGE_NAME,

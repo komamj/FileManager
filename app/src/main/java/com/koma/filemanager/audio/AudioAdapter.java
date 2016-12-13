@@ -60,7 +60,6 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioViewHol
 
     @Override
     public void onBindViewHolder(AudioViewHolder holder, int position) {
-        LogUtils.i(TAG, "onBindViewHolder :" + mData.get(position).getFullPath());
         Glide.with(mContext).load(MeidaHelper.getAlbumArtUri(mData.get(position).getAlbumId()))
                 .placeholder(R.mipmap.item_audio)
                 .crossFade(1000).into(holder.mFileImage);

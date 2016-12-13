@@ -48,19 +48,15 @@ public final class FileCategoryUtils {
     }
 
     public static String[] getFileProjection() {
-        return Constants.FILE_PROJECTION;
+        return Constants.FILE_PROJECTION_DEFAULT;
     }
 
     public static String[] getAudioProjection() {
         return Constants.AUDIO_PROJECTION;
     }
 
-    public static String getAudioFilesSelection() {
-        StringBuilder stringBuilder = new StringBuilder("(");
-        stringBuilder.append(MediaStore.Files.FileColumns.DATA);
-        stringBuilder.append(" NOT LIKE '.%'");
-        stringBuilder.append(")");
-        return stringBuilder.toString();
+    public static String[] getSubFileProjection() {
+        return Constants.SUB_FILE_PROJECTION;
     }
 
     public static String buildDocSelection() {
@@ -149,81 +145,6 @@ public final class FileCategoryUtils {
 
         return disks;
     }
-
-    /*public static synchronized List<DiskUsage> getMountedVolume(Context ctx) {
-        StorageManager sm = null;
-        ArrayList<DiskUsage> diskUsage = new ArrayList<DiskUsage>();
-        sm = (StorageManager) ctx.getSystemService(Context.STORAGE_SERVICE);
-        final List<VolumeInfo> volumes = sm.getVolumes();
-        Collections.sort(volumes, VolumeInfo.getDescriptionComparator());
-        try {
-            for (VolumeInfo vol : volumes) {
-                final File path = vol.getPath();
-                long totalBytes = 0;
-                if (path != null) {
-                    totalBytes = path.getTotalSpace();
-                }
-                if (vol != null && vol.isMountedReadable() && path != null) {
-
-                    File disk = path;
-
-                    if (vol.getType() != VolumeInfo.TYPE_PRIVATE) {
-
-                        String dsc = sm.getBestVolumeDescription(vol);
-
-                        if (vol.getType() == VolumeInfo.TYPE_EMULATED) {
-                            disk = new File(getPrimaryExternalStorageDirectory());
-                        }
-
-                        if (dsc == null) {
-                            dsc = getStorageVolumeDescription(ctx, disk.getAbsolutePath());
-                        }
-
-                        if (totalBytes > 0) {
-                            diskUsage.add(FileCategoryHelper.createDiskUsage(disk, dsc));
-                        }
-                    }
-
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return diskUsage;
-    }
-
-    public static ArrayList<Disk> listAllStorage(Context context) {
-        ArrayList<Disk> storages = new ArrayList<Disk>();
-        StorageManager storageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
-        try {
-            Class<?>[] paramClasses = {};
-            Method getVolumeList = StorageManager.class.getMethod("getVolumeList", paramClasses);
-            Object[] params = {};
-            Object[] invokes = (Object[]) getVolumeList.invoke(storageManager, params);
-
-            if (invokes != null) {
-                Disk info = null;
-                for (int i = 0; i < invokes.length; i++) {
-                    Object obj = invokes[i];
-                    Method getPath = obj.getClass().getMethod("getPath", new Class[0]);
-                    String path = (String) getPath.invoke(obj, new Object[0]);
-                    info = new Disk(path);
-
-                    Method getVolumeState = StorageManager.class.getMethod("getVolumeState", String.class);
-                    String state = (String) getVolumeState.invoke(storageManager, info.path);
-                    info.state = state;
-
-                    Method isRemovable = obj.getClass().getMethod("isRemovable", new Class[0]);
-                    info.isRemoveable = ((Boolean) isRemovable.invoke(obj, new Object[0])).booleanValue();
-                    storages.add(info);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        storages.trimToSize();
-        return storages;
-    }*/
 
     // 内置的存储卡
     public static String getPrimaryExternalStorageDirectory() {

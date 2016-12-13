@@ -74,7 +74,7 @@ public class AudioPresenter implements AudioConstract.Presenter {
 
     @Override
     public void getAudioFiles() {
-        if (mSubscription != null) {
+        if (mSubscription != null && mAudioFilesSubsription != null) {
             mSubscription.remove(mAudioFilesSubsription);
         }
         mAudioFilesSubsription = mFileRepository.getAudioFiles().subscribeOn(Schedulers.io())

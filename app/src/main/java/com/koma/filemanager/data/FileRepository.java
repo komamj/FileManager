@@ -94,7 +94,7 @@ public class FileRepository implements FileDataSource {
 
     @Override
     public Observable<ArrayList<ZipFile>> getZipFiles() {
-        return null;
+        return mLocalDataSource.getZipFiles();
     }
 
     @Override

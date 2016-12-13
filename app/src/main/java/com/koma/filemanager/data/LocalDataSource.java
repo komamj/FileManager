@@ -243,7 +243,33 @@ public class LocalDataSource implements FileDataSource {
 
     @Override
     public Observable<ArrayList<ZipFile>> getZipFiles() {
-        return null;
+
+        return Observable.create(new Observable.OnSubscribe<ArrayList<ZipFile>>() {
+            @Override
+            public void call(Subscriber<? super ArrayList<ZipFile>> subscriber) {
+                Cursor cursor = FileManagerApplication.getContext().getContentResolver()
+                        .query(FileCategoryUtils.getFileUri(), FileCategoryUtils.getSubFileProjection(),
+                                FileCategoryUtils.buildZipSelection(), null, null);
+                ArrayList<ZipFile> zipFiles = new ArrayList<>();
+                if (cursor != null) {
+                    if (!cursor.isClosed()) {
+                        LogUtils.i(TAG, "zip counts : " + cursor.getCount());
+                        while (cursor.moveToNext()) {
+                            File file = new File(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA)));
+                            ZipFile zipFile = new ZipFile();
+                            zipFile.setFileName(file.getName());
+                            zipFile.setParent(file.getParent());
+                            zipFile.setFileSize(cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.SIZE)));
+                            zipFile.setFileModifiedTime(new Date(cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATE_MODIFIED)) * 1000));
+                            zipFiles.add(zipFile);
+                        }
+                        cursor.close();
+                    }
+                }
+                subscriber.onNext(zipFiles);
+                subscriber.onCompleted();
+            }
+        });
     }
 
     @Override
