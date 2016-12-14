@@ -83,6 +83,9 @@ public class AudioActivity extends BaseMenuActivity {
         if (mPresenter != null) {
             mPresenter.unSubscribe();
         }
+        if (mAudioObserver != null) {
+            getContentResolver().unregisterContentObserver(mAudioObserver);
+        }
     }
 
     @Override
