@@ -56,6 +56,9 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity {
         getMenuInflater().inflate(R.menu.common_menu, menu);
         mSortMenu = menu.findItem(R.id.action_sort);
         mMoreMenu = menu.findItem(R.id.action_more);
+        if (mMoreMenu != null) {
+            mMoreMenu.setVisible(false);
+        }
         initSearchView(menu);
         return true;
     }
@@ -155,6 +158,12 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtils.i(TAG, "onDestroy");
     }
 
     protected abstract void sortByType();

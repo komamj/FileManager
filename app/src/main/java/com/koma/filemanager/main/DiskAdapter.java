@@ -12,28 +12,20 @@ import android.widget.TextView;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.data.model.Disk;
-import com.koma.filemanager.helper.BusProvider;
-import com.koma.filemanager.helper.event.PathEvent;
 import com.koma.filemanager.util.Constants;
-import com.koma.filemanager.util.FileUtils;
 import com.koma.filemanager.util.LocaleUtils;
 import com.koma.filemanager.util.LogUtils;
-import com.squareup.otto.Produce;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by koma on 11/29/16.
  */
 
-public class
-DiskAdapter extends RecyclerView.Adapter<DiskAdapter.VolumeInfoHolder> {
+public class DiskAdapter extends RecyclerView.Adapter<DiskAdapter.VolumeInfoHolder> {
     private static final String TAG = "VolumeInfoAdapter";
     private ArrayList<Disk> mData;
     private Context mContext;

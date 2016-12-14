@@ -15,6 +15,7 @@ import com.koma.filemanager.data.model.ImageFile;
 import com.koma.filemanager.data.model.VideoFile;
 import com.koma.filemanager.data.model.ZipFile;
 import com.koma.filemanager.helper.FileHelper;
+import com.koma.filemanager.helper.FileSortHelper;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 
@@ -284,6 +285,7 @@ public class LocalDataSource implements FileDataSource {
             @Override
             public void call(Subscriber<? super ArrayList<BaseFile>> subscriber) {
                 File file = new File(path);
+                LogUtils.i(TAG, "getFiles path : " + path);
                 File[] files = file.listFiles();
                 ArrayList<BaseFile> baseFiles = new ArrayList<>();
                 for (File child : files) {
@@ -293,6 +295,7 @@ public class LocalDataSource implements FileDataSource {
                         }
                     }
                 }
+                FileSortHelper.sortBaseFile(baseFiles, FileSortHelper.SortKey.name, FileSortHelper.SortMethod.asc);
                 subscriber.onNext(baseFiles);
                 subscriber.onCompleted();
             }

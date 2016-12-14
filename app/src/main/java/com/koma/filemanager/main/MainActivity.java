@@ -66,17 +66,17 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.video_category:
                 if (mPresenter != null) {
-                    mPresenter.launchCategoryActivity(R.id.video_category);
+                    //mPresenter.launchCategoryActivity(R.id.video_category);
                 }
                 break;
             case R.id.image_category:
                 if (mPresenter != null) {
-                    mPresenter.launchCategoryActivity(R.id.image_category);
+                    //mPresenter.launchCategoryActivity(R.id.image_category);
                 }
                 break;
             case R.id.document_category:
                 if (mPresenter != null) {
-                    mPresenter.launchCategoryActivity(R.id.document_category);
+                   // mPresenter.launchCategoryActivity(R.id.document_category);
                 }
                 break;
             case R.id.zip_category:
@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.apk_category:
                 if (mPresenter != null) {
-                    mPresenter.launchCategoryActivity(R.id.apk_category);
+                    //mPresenter.launchCategoryActivity(R.id.apk_category);
                 }
                 break;
             default:

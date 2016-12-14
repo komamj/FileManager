@@ -14,20 +14,27 @@ import android.view.ViewGroup;
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseFile;
 import com.koma.filemanager.base.BaseFragment;
+import com.koma.filemanager.helper.RxBus;
+import com.koma.filemanager.helper.event.SortEvent;
 import com.koma.filemanager.util.Constants;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by koma on 12/1/16.
  */
 
-public class FileViewFragment extends BaseFragment implements FileViewContract.View {
+public class FileViewFragment extends BaseFragment implements FileViewContract.View,
+        FileViewAdapter.RecyclerViewOnItemClickListener {
     private static final String TAG = "FileViewFragment";
     @NonNull
     private FileViewContract.Presenter mPresenter;
@@ -74,6 +81,7 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
                 true, mFileObserver);
         mData = new ArrayList<>();
         mAdapter = new FileViewAdapter(mContext, mData);
+        mAdapter.setRecyclerViewOnItemClickListener(this);
         if (mPresenter != null) {
             mPresenter.subscribe();
         }
@@ -121,14 +129,20 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
 
     @Override
     public void refreshAdapter(ArrayList<BaseFile> files) {
-        LogUtils.i(TAG, "refreshAdapter" + files.size());
+        LogUtils.i(TAG, "refreshAdapter" + files.size() + files.toString());
+        if (mAdapter != null) {
+            mAdapter.setData(files);
+        }
         if (mData != null) {
             mData.clear();
         } else {
             mData = new ArrayList<>();
         }
         mData.addAll(files);
-        mAdapter.notifyDataSetChanged();
+        LogUtils.i(TAG, "files :" + files.size() + files.toString());
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -144,7 +158,15 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
 
     @Override
     public String getPath() {
-        return null;
+        return mPath;
+    }
+
+    @Override
+    public void onSortSuccess() {
+        LogUtils.i(TAG, "onSortSuccess" + mData.toString());
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -154,6 +176,29 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
     }
 
     @Override
+    protected Subscription subscribeEvents() {
+        return RxBus.getInstance().toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        if (o instanceof SortEvent) {
+                            LogUtils.i(TAG, "sortEvent");
+                            sortFiles((SortEvent) o);
+                        }
+                    }
+                })
+                .subscribe(RxBus.defaultSubscriber());
+    }
+
+    private void sortFiles(SortEvent sortEvent) {
+        if (mPresenter != null) {
+            mPresenter.sortFiles(mData, sortEvent);
+        }
+    }
+
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         LogUtils.i(TAG, "onDestroy");
@@ -161,5 +206,27 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
         if (mPresenter != null) {
             mPresenter.unSubscribe();
         }
+    }
+
+    @Override
+    public void onItemClickListener(View view, int position) {
+        LogUtils.i(TAG, "onItemClickListener position : " + position);
+        if (mPresenter != null) {
+            File file = new File(mData.get(position).getFullPath());
+            if (file.isDirectory()) {
+                mPresenter.getFiles(mData.get(position).getFullPath());
+            }
+        }
+    }
+
+    @Override
+    public boolean onItemLongClickListener(View view, int position) {
+        LogUtils.i(TAG, "onItemLongClickListener position : " + position);
+        if (mAdapter != null) {
+            mAdapter.setSelectMode(true);
+            mAdapter.setSelectItem(position);
+            mAdapter.notifyDataSetChanged();
+        }
+        return true;
     }
 }

@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.koma.filemanager.util.LogUtils;
 
 import butterknife.ButterKnife;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 import static com.koma.filemanager.util.Constants.PERMISSIONS_STORAGE;
 import static com.koma.filemanager.util.Constants.REQUEST_CODE_ASK_PERMISSIONS;
@@ -23,6 +25,7 @@ import static com.koma.filemanager.util.Constants.REQUEST_CODE_ASK_PERMISSIONS;
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     protected Context mContext;
+    private CompositeSubscription mSubscriptions;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         mContext = BaseActivity.this;
         setContentView(getLayoutId());
         ButterKnife.bind(this);
+        addSubscription(subscribeEvents());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mSubscriptions != null) {
+            mSubscriptions.clear();
+        }
     }
 
     protected abstract int getLayoutId();
@@ -80,6 +92,18 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    protected void addSubscription(Subscription subscription) {
+        if (subscription == null) return;
+        if (mSubscriptions == null) {
+            mSubscriptions = new CompositeSubscription();
+        }
+        mSubscriptions.add(subscription);
+    }
+
+    protected Subscription subscribeEvents() {
+        return null;
     }
 
 }

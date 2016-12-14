@@ -54,7 +54,7 @@ public class FileHelper {
             }
             Date lastModified = new Date(file.lastModified());
             if (file.isDirectory()) {
-                return new BaseFile(file.getName(), file.getParent(), 0, lastModified);
+                return new BaseFile(file.getName(), file.getParent(), 0, lastModified, true);
             } else {
                 return new BaseFile(file.getName(), file.getParent(), file.length(), lastModified, false);
             }

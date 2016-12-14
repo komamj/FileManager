@@ -1,16 +1,20 @@
 package com.koma.filemanager.fileview;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseMenuActivity;
 import com.koma.filemanager.data.FileRepository;
+import com.koma.filemanager.helper.FileSortHelper;
+import com.koma.filemanager.helper.RxBus;
+import com.koma.filemanager.helper.event.SortEvent;
 import com.koma.filemanager.util.Constants;
 import com.koma.filemanager.util.LogUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by koma on 11/30/16.
@@ -20,6 +24,13 @@ public class FileViewActivity extends BaseMenuActivity {
     private static final String TAG = "FileViewActivity";
     FileViewPresenter mPresenter;
     private String mPath;
+    @BindView(R.id.new_file)
+    FloatingActionButton mNewFileBtn;
+
+    @OnClick(R.id.new_file)
+    public void newFile() {
+        LogUtils.i(TAG, "newFile");
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +52,6 @@ public class FileViewActivity extends BaseMenuActivity {
         mPresenter = new FileViewPresenter(fileViewFragment, FileRepository.getInstance());
         mPresenter.subscribe();
     }
-
 
     public String getPath() {
         return mPath;
@@ -67,21 +77,25 @@ public class FileViewActivity extends BaseMenuActivity {
     @Override
     protected void sortByType() {
         LogUtils.i(TAG, "sortByType");
+        RxBus.getInstance().post(new SortEvent(FileSortHelper.SortKey.type, FileSortHelper.SortMethod.asc));
     }
 
     @Override
     protected void sortByName() {
         LogUtils.i(TAG, "sortByName");
+        RxBus.getInstance().post(new SortEvent(FileSortHelper.SortKey.name, FileSortHelper.SortMethod.asc));
     }
 
     @Override
     protected void sortBySize() {
         LogUtils.i(TAG, "sortBySize");
+        RxBus.getInstance().post(new SortEvent(FileSortHelper.SortKey.size, FileSortHelper.SortMethod.asc));
     }
 
     @Override
     protected void sortByDate() {
         LogUtils.i(TAG, "sortByDate");
+        RxBus.getInstance().post(new SortEvent(FileSortHelper.SortKey.date, FileSortHelper.SortMethod.asc));
     }
 
 
@@ -101,8 +115,5 @@ public class FileViewActivity extends BaseMenuActivity {
     public void onDestroy() {
         super.onDestroy();
         LogUtils.i(TAG, "onDestroy");
-        if (mPresenter != null) {
-            mPresenter.unSubscribe();
-        }
     }
 }

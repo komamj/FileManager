@@ -22,6 +22,7 @@ public class AudioActivity extends BaseMenuActivity {
     private static final String TAG = "AudioActivity";
     AudioPresenter mPresenter;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtils.i(TAG, "onCreate");
@@ -51,27 +52,32 @@ public class AudioActivity extends BaseMenuActivity {
         }
     };
 
-    protected void onStart() {
+    @Override
+    public void onStart() {
         super.onStart();
         LogUtils.i(TAG, "onStart");
     }
 
-    protected void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
         LogUtils.i(TAG, "onResume");
     }
 
-    protected void onPause() {
+    @Override
+    public void onPause() {
         super.onPause();
         LogUtils.i(TAG, "onPause");
     }
 
-    protected void onStop() {
+    @Override
+    public void onStop() {
         super.onStop();
         LogUtils.i(TAG, "onStop");
     }
 
-    protected void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         LogUtils.i(TAG, "onDestroy");
         if (mPresenter != null) {
@@ -83,6 +89,7 @@ public class AudioActivity extends BaseMenuActivity {
     protected int getLayoutId() {
         return R.layout.category_activity;
     }
+
     @Override
     protected void sortByType() {
 
