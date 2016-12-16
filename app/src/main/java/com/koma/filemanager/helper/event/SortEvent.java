@@ -7,11 +7,27 @@ import com.koma.filemanager.helper.FileSortHelper;
  */
 
 public class SortEvent {
-    public FileSortHelper.SortKey mSortKey;
-    public FileSortHelper.SortMethod mSortMethod;
+    private FileSortHelper.SortKey mSortKey;
+    private FileSortHelper.SortMethod mSortMethod;
 
     public SortEvent(FileSortHelper.SortKey sortKey, FileSortHelper.SortMethod sortMethod) {
         this.mSortKey = sortKey;
         this.mSortMethod = sortMethod;
+    }
+
+    public void setSortKey(FileSortHelper.SortKey sortKey) {
+        this.mSortKey = sortKey;
+    }
+
+    public FileSortHelper.SortKey getSortKey() {
+        return mSortKey;
+    }
+
+    public void setSortMethod(FileSortHelper.SortMethod sortMethod) {
+        this.mSortMethod = sortMethod;
+    }
+
+    public FileSortHelper.SortMethod getSortMethod() {
+        return mSortMethod;
     }
 }

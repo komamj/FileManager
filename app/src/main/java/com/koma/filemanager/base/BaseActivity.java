@@ -39,7 +39,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         mContext = BaseActivity.this;
         setContentView(getLayoutId());
         ButterKnife.bind(this);
-        addSubscription(subscribeEvents());
     }
 
     @Override
@@ -101,9 +100,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         mSubscriptions.add(subscription);
     }
-
-    protected Subscription subscribeEvents() {
-        return null;
-    }
-
 }

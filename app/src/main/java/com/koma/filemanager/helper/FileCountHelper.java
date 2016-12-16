@@ -1,6 +1,5 @@
 package com.koma.filemanager.helper;
 
-import com.koma.filemanager.util.LogUtils;
 
 import java.io.File;
 
@@ -24,17 +23,6 @@ public class FileCountHelper {
         }
         return mHelper;
     }
-
-    /*public int getFileCount(String fullPath) {
-        try {
-            File file = new File(fullPath);
-            int filesCount = FileHelper.getSubFilesCount(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            LogUtils.e(TAG, "getFileCount error : " + e.toString());
-        }
-        return 0;
-    }*/
 
     public Observable<Integer> getFileCount(final String fullPath) {
         return Observable.create(new Observable.OnSubscribe<Integer>() {

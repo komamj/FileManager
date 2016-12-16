@@ -80,6 +80,11 @@
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".volumeinfo.VolumeInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainTheme"></activity>
     </application>
 
 </manifest>

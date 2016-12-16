@@ -45,4 +45,9 @@ public final class Constants {
 
     //FileViewActivity
     public static final String EXTRA_FILE_DIRECTORY = "extra_file_directory";
+
+    //Operation Action
+    public static final String OPERATION_ACTION = "operation_action";
+    public static final String COPY_ACTION = "copy_action";
+    public static final String CUT_ACTION = "cut_action";
 }

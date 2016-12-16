@@ -50,10 +50,16 @@
     <string name="copy">Copy</string>
     <string name="cut">Cut</string>
     <string name="delete">Delete</string>
+    <string name="select">Select</string>
     <string name="select_all">Select All</string>
-    <string name="deselect_all">Deselect_All</string>
+    <string name="deselect_all">Deselect All</string>
 
     <!--UnCompress-->
     <string name="uncompress">UnCompress</string>
     <string name="uncompress_to">UnCompress To</string>
+
+    <!--InputNameDialog-->
+    <string name="default_hint">Please input the folder name</string>
+    <string name="edit_title">Title</string>
+    <string name="err_no_edit">Nothing to modify</string>
 </resources>

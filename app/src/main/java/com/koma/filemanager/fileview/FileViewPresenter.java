@@ -74,7 +74,7 @@ public class FileViewPresenter implements FileViewContract.Presenter {
                 .OnSubscribe<ArrayList<BaseFile>>() {
             @Override
             public void call(Subscriber<? super ArrayList<BaseFile>> subscriber) {
-                FileSortHelper.sortBaseFile(files, sortEvent.mSortKey, sortEvent.mSortMethod);
+                FileSortHelper.sortBaseFile(files, sortEvent.getSortKey(), sortEvent.getSortMethod());
                 subscriber.onNext(files);
                 subscriber.onCompleted();
             }

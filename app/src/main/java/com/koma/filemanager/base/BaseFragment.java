@@ -30,7 +30,6 @@ public class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        addSubscription(subscribeEvents());
     }
 
     @Override
@@ -39,10 +38,6 @@ public class BaseFragment extends Fragment {
         if (mSubscriptions != null) {
             mSubscriptions.clear();
         }
-    }
-
-    protected Subscription subscribeEvents() {
-        return null;
     }
 
     protected void addSubscription(Subscription subscription) {

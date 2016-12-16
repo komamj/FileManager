@@ -15,6 +15,7 @@ import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseFile;
 import com.koma.filemanager.base.BaseFragment;
 import com.koma.filemanager.helper.RxBus;
+import com.koma.filemanager.helper.event.SelectEvent;
 import com.koma.filemanager.helper.event.SortEvent;
 import com.koma.filemanager.util.Constants;
 import com.koma.filemanager.util.FileCategoryUtils;
@@ -102,7 +103,7 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
+        addSubscription(subscribeEvents());
     }
 
     @Override
@@ -175,8 +176,7 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
         mPresenter = presenter;
     }
 
-    @Override
-    protected Subscription subscribeEvents() {
+    private Subscription subscribeEvents() {
         return RxBus.getInstance().toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Action1<Object>() {
@@ -222,6 +222,7 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
     @Override
     public boolean onItemLongClickListener(View view, int position) {
         LogUtils.i(TAG, "onItemLongClickListener position : " + position);
+        RxBus.getInstance().post(new SelectEvent(true));
         if (mAdapter != null) {
             mAdapter.setSelectMode(true);
             mAdapter.setSelectItem(position);

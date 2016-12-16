@@ -2,18 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_action_mode_copy"
-        android:icon="@mipmap/ic_copy"
-        app:showAsAction="always"
-        android:title="@string/copy" />
+        android:id="@+id/action_select_all"
+        android:icon="@mipmap/ic_dropdown"
+        android:title="@string/select"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_share"
+        android:icon="@mipmap/ic_menu_share"
+        android:title="@string/share"
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_action_cut"
-        android:icon="@mipmap/ic_cut"
-        app:showAsAction="always"
-        android:title="@string/cut" />
+        android:icon="@drawable/ic_cut_24dp"
+        android:title="@string/cut"
+        app:showAsAction="always" />
     <item
-        android:id="@+id/menu_action_mode_del"
+        android:id="@+id/action_delete"
         android:icon="@drawable/ic_delete"
-        app:showAsAction="always"
-        android:title="@string/delete" />
+        android:title="@string/delete"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_more_vert"
+        android:title="@string/menu_more"
+        app:showAsAction="always" />
 </menu>
