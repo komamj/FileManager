@@ -22,7 +22,7 @@
     <style name="SplashTheme" parent="AppTheme.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowBackground">@mipmap/window_bg</item>
+        <item name="android:windowBackground">@color/color_yellow</item>
     </style>
 
     <style name="MainTheme" parent="AppTheme.NoActionBar">

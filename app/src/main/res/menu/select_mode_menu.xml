@@ -8,12 +8,12 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/action_share"
-        android:icon="@mipmap/ic_menu_share"
+        android:icon="@drawable/ic_share"
         android:title="@string/share"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_action_cut"
-        android:icon="@drawable/ic_cut_24dp"
+        android:icon="@drawable/ic_cut_white_24dp"
         android:title="@string/cut"
         app:showAsAction="always" />
     <item

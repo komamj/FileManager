@@ -10,4 +10,8 @@
     <!--ProgressBar-->
     <color name="progress_bar_background">#ececec</color>
     <color name="progress_bar_color">#02a9ec</color>
+
+    <!--Grey Color-->
+    <color name="color_grey">#767676</color>
+    <color name="color_yellow">#E49741</color>
 </resources>

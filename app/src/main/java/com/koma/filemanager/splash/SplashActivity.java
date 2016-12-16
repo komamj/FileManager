@@ -54,8 +54,6 @@ public class SplashActivity extends BaseActivity {
                                 .map(new Func1<Bitmap, Drawable>() {
                                     @Override
                                     public Drawable call(Bitmap bitmap) {
-                                        LogUtils.i(TAG, "call-------thread id :"
-                                                + Thread.currentThread().getId());
                                         return BlurUtils.blurBitmap(mContext, bitmap);
                                     }
                                 })

@@ -215,6 +215,7 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity implements 
         mShareMenu = menu.findItem(R.id.action_share);
         mCutMenu = menu.findItem(R.id.menu_action_cut);
         mDeleteMenu = menu.findItem(R.id.action_delete);
+        mDeleteMenu.setEnabled(false);
         mMoreMenu = menu.findItem(R.id.action_more);
         return true;
     }
