@@ -53,6 +53,8 @@
     <string name="select">Select</string>
     <string name="select_all">Select All</string>
     <string name="deselect_all">Deselect All</string>
+    <string name="rename">Rename</string>
+    <string name="detail">Detail</string>
 
     <!--UnCompress-->
     <string name="uncompress">UnCompress</string>
@@ -62,4 +64,7 @@
     <string name="default_hint">Please input the folder name</string>
     <string name="edit_title">Title</string>
     <string name="err_no_edit">Nothing to modify</string>
+
+    <!--EmptyView-->
+    <string name="no_file">No File</string>
 </resources>

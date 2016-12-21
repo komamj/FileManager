@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
+   <!-- <item
         android:id="@+id/action_select_all"
         android:icon="@mipmap/ic_dropdown"
         android:title="@string/select"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
     <item
         android:id="@+id/action_share"
         android:icon="@drawable/ic_share"
@@ -25,5 +25,16 @@
         android:id="@+id/action_more"
         android:icon="@drawable/ic_more_vert"
         android:title="@string/menu_more"
-        app:showAsAction="always" />
+        app:showAsAction="always">
+        <item
+            android:id="@+id/action_copy"
+            android:title="@string/copy" />
+        <item
+            android:id="@+id/action_rename"
+            android:title="@string/rename" />
+        <item
+            android:id="@+id/action_detail"
+            android:title="@string/detail" />
+
+    </item>
 </menu>

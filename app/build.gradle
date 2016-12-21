@@ -67,9 +67,11 @@ dependencies {
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     compile "io.reactivex:rxjava:$rootProject.ext.rxjavaVersion"
 
+    compile project(':flexibleadapter')
     //leakcanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    //releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
 android.applicationVariants.all { variant ->

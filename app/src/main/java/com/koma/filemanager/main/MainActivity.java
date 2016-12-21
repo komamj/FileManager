@@ -1,5 +1,6 @@
 package com.koma.filemanager.main;
 
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -11,14 +12,18 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseActivity;
@@ -50,6 +55,8 @@ public class MainActivity extends BaseActivity
     DrawerLayout mDrawer;
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
+    private MenuItem mSearchItem;
+    private SearchView mSearchView;
     @BindViews({R.id.audio_category, R.id.video_category, R.id.image_category,
             R.id.document_category, R.id.zip_category, R.id.apk_category})
     List<CategoryButton> mCategoryButtons;
@@ -76,7 +83,7 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.document_category:
                 if (mPresenter != null) {
-                   // mPresenter.launchCategoryActivity(R.id.document_category);
+                    // mPresenter.launchCategoryActivity(R.id.document_category);
                 }
                 break;
             case R.id.zip_category:
@@ -233,6 +240,11 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
+        //If SearchView is visible, back key cancels search and iconify it
+        if (mSearchView != null && !mSearchView.isIconified()) {
+            mSearchView.setIconified(true);
+            return;
+        }
         if (mDrawer.isDrawerOpen(GravityCompat.START)) {
             mDrawer.closeDrawer(GravityCompat.START);
         } else {
@@ -244,6 +256,7 @@ public class MainActivity extends BaseActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        initSearchView(menu);
         return true;
     }
 
@@ -260,6 +273,37 @@ public class MainActivity extends BaseActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initSearchView(final Menu menu) {
+        //Associate searchable configuration with the SearchView
+        LogUtils.i(TAG, "onCreateOptionsMenu setup SearchView!");
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        mSearchItem = menu.findItem(R.id.action_search);
+        if (mSearchItem != null) {
+            MenuItemCompat.setOnActionExpandListener(
+                    mSearchItem, new MenuItemCompat.OnActionExpandListener() {
+                        @Override
+                        public boolean onMenuItemActionExpand(MenuItem item) {
+                            LogUtils.i(TAG, "onMenuItemActionExpand");
+
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onMenuItemActionCollapse(MenuItem item) {
+                            LogUtils.i(TAG, "onMenuItemActionCollapse");
+
+                            return true;
+                        }
+                    });
+            mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+            mSearchView.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER);
+            mSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_FULLSCREEN);
+            mSearchView.setQueryHint(getString(R.string.action_search));
+            mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            //mSearchView.setOnQueryTextListener(this);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

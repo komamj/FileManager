@@ -15,6 +15,7 @@ import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseFile;
 import com.koma.filemanager.base.BaseFragment;
 import com.koma.filemanager.helper.RxBus;
+import com.koma.filemanager.helper.SelectHelper;
 import com.koma.filemanager.helper.event.SelectEvent;
 import com.koma.filemanager.helper.event.SortEvent;
 import com.koma.filemanager.util.Constants;
@@ -222,7 +223,7 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
     @Override
     public boolean onItemLongClickListener(View view, int position) {
         LogUtils.i(TAG, "onItemLongClickListener position : " + position);
-        RxBus.getInstance().post(new SelectEvent(true));
+        RxBus.getInstance().post(new SelectEvent(SelectHelper.MODE_MULTI));
         if (mAdapter != null) {
             mAdapter.setSelectMode(true);
             mAdapter.setSelectItem(position);

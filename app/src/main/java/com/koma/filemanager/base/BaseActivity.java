@@ -100,4 +100,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         mSubscriptions.add(subscription);
     }
+
+    protected void clearSubsription() {
+        if (mSubscriptions != null) {
+            mSubscriptions.clear();
+        }
+    }
 }

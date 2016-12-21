@@ -1,7 +1,9 @@
 package com.koma.filemanager.helper;
 
 import com.koma.filemanager.base.BaseFile;
+import com.koma.filemanager.helper.event.SelectEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,11 +13,12 @@ import java.util.List;
 public class SelectHelper {
     private static final String TAG = "SelectHelper";
     //Select Mode
-    public static final int MODE_IDLE = 0, MODE_SINGLE = 1, MODE_MULTI = 2;
+    public static final int MODE_IDLE = 0, MODE_MULTI = 1;
     private static SelectHelper sInstance;
     private List<BaseFile> mClickedItem;
 
     private SelectHelper() {
+        mClickedItem = new ArrayList<>();
     }
 
     public static SelectHelper getInstance() {
@@ -34,6 +37,10 @@ public class SelectHelper {
     }
 
     public void selectAll() {
+        if (mClickedItem != null) {
+            mClickedItem.clear();
+        }
+        RxBus.getInstance().post(new SelectEvent(MODE_MULTI));
     }
 
     public int getTotalCount() {
@@ -43,9 +50,6 @@ public class SelectHelper {
     public int getSelectedCount() {
         return 0;
     }
-    /*public void setDataSource(DataSource datasource) {
-        mDataSource = datasource;
-    }*/
 
     public List<BaseFile> getSelected() {
         return mClickedItem;

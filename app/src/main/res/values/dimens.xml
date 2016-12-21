@@ -30,4 +30,8 @@
 
     <!--Progressbar-->
     <dimen name="progress_radius">10dp</dimen>
+
+    <!--EmptyView-->
+    <dimen name="empty_text_marigin_top">35dp</dimen>
+    <dimen name="empty_text_sise">16sp</dimen>
 </resources>

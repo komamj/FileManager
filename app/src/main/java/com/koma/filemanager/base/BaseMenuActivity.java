@@ -12,11 +12,11 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.koma.filemanager.R;
 import com.koma.filemanager.helper.RxBus;
+import com.koma.filemanager.helper.SelectHelper;
 import com.koma.filemanager.helper.event.SelectEvent;
 import com.koma.filemanager.util.LogUtils;
 
@@ -32,7 +32,7 @@ import rx.functions.Action1;
 public abstract class BaseMenuActivity extends BaseSwipeBackActivity implements ActionMode.Callback {
     private static final String TAG = "BaseMenuActivity";
     protected SearchView mSearchView;
-    protected MenuItem mSortMenu, mSearchItem, mMoreMenu, mSelectMenu, mShareMenu, mCutMenu,
+    protected MenuItem mSortMenu, mSearchItem, mMoreMenu, mShareMenu, mCutMenu,
             mDeleteMenu;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -54,34 +54,48 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity implements 
                     public void call(Object o) {
                         if (o instanceof SelectEvent) {
                             LogUtils.i(TAG, "SelectEvent");
-                            if (mActionMode != null) {
-                                return;
+                            SelectEvent selectEvent = (SelectEvent) o;
+                            if (selectEvent.getSelectMode() == SelectHelper.MODE_IDLE) {
+                                setMenuEnabled(false);
+                            } else if (selectEvent.getSelectMode() == SelectHelper.MODE_MULTI) {
+                                if (mActionMode != null) {
+                                    return;
+                                } else {
+                                    startActionMode();
+                                }
+                                if (selectEvent.getSelectedFiles() != null) {
+                                    if (mActionMode != null) {
+                                        mActionMode.setTitle(selectEvent.getSelectedFiles().size());
+                                    }
+
+                                }
                             }
-                            startActionMode();
+
                         }
                     }
                 })
                 .subscribe(RxBus.defaultSubscriber());
     }
 
+    private void setMenuEnabled(boolean enable) {
+        if (mShareMenu != null && mCutMenu != null && mDeleteMenu != null && mMoreMenu != null) {
+            mShareMenu.setEnabled(enable);
+            mCutMenu.setEnabled(enable);
+            mDeleteMenu.setEnabled(enable);
+            mMoreMenu.setEnabled(enable);
+        }
+    }
+
     private void startActionMode() {
-        startSupportActionMode(this);
+        mActionMode = startSupportActionMode(this);
     }
 
     private void init() {
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_back);
-        mToolbar.setNavigationOnClickListener(mNavigationListener);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         addSubscription(subscribeEvents());
     }
-
-    private View.OnClickListener mNavigationListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            LogUtils.i(TAG, "Navigation is clicked ");
-            finish();
-        }
-    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,6 +117,9 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity implements 
     public boolean onOptionsItemSelected(MenuItem item) {
         LogUtils.i(TAG, "onOptionsItemSelected called!");
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
             case R.id.action_search:
                 break;
             case R.id.action_sort:
@@ -183,6 +200,7 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity implements 
 
     @Override
     public void onBackPressed() {
+        LogUtils.i(TAG, "onBackPressed");
         //If SearchView is visible, back key cancels search and iconify it
         if (mSearchView != null && !mSearchView.isIconified()) {
             mSearchView.setIconified(true);
@@ -210,12 +228,9 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity implements 
         LogUtils.i(TAG, "onCreateActionMode");
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.select_mode_menu, menu);
-        mSelectMenu = menu.findItem(R.id.action_select_all);
-        mSelectMenu.setEnabled(false);
         mShareMenu = menu.findItem(R.id.action_share);
         mCutMenu = menu.findItem(R.id.menu_action_cut);
         mDeleteMenu = menu.findItem(R.id.action_delete);
-        mDeleteMenu.setEnabled(false);
         mMoreMenu = menu.findItem(R.id.action_more);
         return true;
     }
@@ -231,9 +246,6 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity implements 
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         LogUtils.i(TAG, "onActionItemClicked");
         switch (item.getItemId()) {
-            case R.id.action_select_all:
-                mode.finish();
-                break;
             case R.id.action_share:
                 mode.finish();
                 break;
@@ -251,5 +263,7 @@ public abstract class BaseMenuActivity extends BaseSwipeBackActivity implements 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         LogUtils.i(TAG, "onDestroyActionMode");
+        clearSubsription();
+        RxBus.getInstance().post(new SelectEvent(SelectHelper.MODE_IDLE));
     }
 }

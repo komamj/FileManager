@@ -9,12 +9,16 @@ import com.koma.filemanager.base.BaseMenuActivity;
 import com.koma.filemanager.data.FileRepository;
 import com.koma.filemanager.helper.FileSortHelper;
 import com.koma.filemanager.helper.RxBus;
+import com.koma.filemanager.helper.event.SelectEvent;
 import com.koma.filemanager.helper.event.SortEvent;
 import com.koma.filemanager.util.Constants;
 import com.koma.filemanager.util.LogUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by koma on 11/30/16.

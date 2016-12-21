@@ -16,6 +16,9 @@ import com.bumptech.glide.Glide;
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseFile;
 import com.koma.filemanager.helper.FileCountHelper;
+import com.koma.filemanager.helper.RxBus;
+import com.koma.filemanager.helper.SelectHelper;
+import com.koma.filemanager.helper.event.SelectEvent;
 import com.koma.filemanager.util.FileUtils;
 import com.koma.filemanager.util.LocaleUtils;
 import com.koma.filemanager.util.LogUtils;
@@ -30,8 +33,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by koma on 12/1/16.
@@ -46,11 +52,35 @@ public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHo
     private Map<Integer, Boolean> mCached = new HashMap<>();
     @NonNull
     private RecyclerViewOnItemClickListener mListener;
+    private CompositeSubscription mSubsriptions;
 
     public FileViewAdapter(Context context, ArrayList<BaseFile> data) {
         mContext = context;
         mData = data;
+        mSubsriptions = new CompositeSubscription();
+        mSubsriptions.add(addSubscription());
         initCached();
+    }
+
+    private Subscription addSubscription() {
+        return RxBus.getInstance().toObservable().observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        if (o instanceof SelectEvent) {
+                            LogUtils.i(TAG, "SelectEvent");
+                            SelectEvent selectEvent = (SelectEvent) o;
+                            if (selectEvent.getSelectMode() == SelectHelper.MODE_IDLE) {
+                                mSelectMode = false;
+                                if (mCached != null) {
+                                    mCached.clear();
+                                }
+                                notifyDataSetChanged();
+                            }
+
+                        }
+                    }
+                }).subscribe(RxBus.defaultSubscriber());
     }
 
     public void setData(ArrayList<BaseFile> data) {
