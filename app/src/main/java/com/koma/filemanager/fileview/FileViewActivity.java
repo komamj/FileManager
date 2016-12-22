@@ -1,7 +1,6 @@
 package com.koma.filemanager.fileview;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 
 import com.koma.filemanager.R;
@@ -9,16 +8,9 @@ import com.koma.filemanager.base.BaseMenuActivity;
 import com.koma.filemanager.data.FileRepository;
 import com.koma.filemanager.helper.FileSortHelper;
 import com.koma.filemanager.helper.RxBus;
-import com.koma.filemanager.helper.event.SelectEvent;
 import com.koma.filemanager.helper.event.SortEvent;
 import com.koma.filemanager.util.Constants;
 import com.koma.filemanager.util.LogUtils;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 /**
  * Created by koma on 11/30/16.
@@ -28,13 +20,6 @@ public class FileViewActivity extends BaseMenuActivity {
     private static final String TAG = "FileViewActivity";
     FileViewPresenter mPresenter;
     private String mPath;
-    @BindView(R.id.new_file)
-    FloatingActionButton mNewFileBtn;
-
-    @OnClick(R.id.new_file)
-    public void newFile() {
-        LogUtils.i(TAG, "newFile");
-    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +48,7 @@ public class FileViewActivity extends BaseMenuActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.file_view_activity;
+        return R.layout.common_layout;
     }
 
     @Override

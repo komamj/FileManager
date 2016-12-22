@@ -5,6 +5,7 @@ import android.database.ContentObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -42,6 +44,14 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
     private FileViewContract.Presenter mPresenter;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.new_file)
+    FloatingActionButton mNewFileBtn;
+
+    @OnClick(R.id.new_file)
+    public void newFile() {
+        LogUtils.i(TAG, "newFile");
+    }
+
     private FileViewAdapter mAdapter;
     private ArrayList<BaseFile> mData;
     private String mPath;
@@ -92,7 +102,6 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recyclerview, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -150,12 +159,18 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
     @Override
     public void showLoadingView() {
         LogUtils.i(TAG, "showLoadingView");
+        super.showLoadingView();
+    }
+
+    @Override
+    public void hideLoadingView() {
+        super.hideLodingView();
     }
 
     @Override
     public void showEmptyView() {
         LogUtils.i(TAG, "showEmptyView");
-
+        super.showLoadingEmpty();
     }
 
     @Override

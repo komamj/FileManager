@@ -19,6 +19,8 @@ public interface FileViewContract {
 
         void showLoadingView();
 
+        void hideLoadingView();
+
         void showEmptyView();
 
         String getPath();

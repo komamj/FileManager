@@ -65,6 +65,7 @@
     <string name="edit_title">Title</string>
     <string name="err_no_edit">Nothing to modify</string>
 
-    <!--EmptyView-->
+    <!--LoadingView-->
+    <string name="loading">Loading...</string>
     <string name="no_file">No File</string>
 </resources>

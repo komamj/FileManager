@@ -85,7 +85,7 @@ public class VideoActivity extends BaseMenuActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.category_activity;
+        return R.layout.common_layout;
     }
 
     @Override

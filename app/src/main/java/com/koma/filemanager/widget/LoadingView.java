@@ -23,7 +23,9 @@ public class LoadingView extends FrameLayout {
     private static final String TAG = "LoadingView";
     private Context mContext;
     @BindString(R.string.no_file)
-    String mNoFileText;
+    String mNoFileString;
+    @BindString(R.string.loading)
+    String mLoadingString;
     @BindView(R.id.progress_bar)
     ContentLoadingProgressBar mProgressBar;
     @BindView(R.id.empty_icon)
@@ -48,7 +50,7 @@ public class LoadingView extends FrameLayout {
     }
 
     @Override
-    protected void onFinishInflate() {
+    public void onFinishInflate() {
         super.onFinishInflate();
         ButterKnife.bind(this, this);
     }
@@ -59,12 +61,13 @@ public class LoadingView extends FrameLayout {
     }
 
     public void showLoding() {
-        mProgressBar.show();
         this.setVisibility(View.VISIBLE);
+        mLoadingText.setText(mLoadingString);
+        mProgressBar.show();
     }
 
-    public void showEmpty() {
+    public void showLoadingEmpty() {
         mEmptyImageView.setVisibility(View.VISIBLE);
-        mLoadingText.setText(mNoFileText);
+        mLoadingText.setText(mNoFileString);
     }
 }

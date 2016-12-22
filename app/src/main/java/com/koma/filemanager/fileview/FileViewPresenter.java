@@ -38,6 +38,9 @@ public class FileViewPresenter implements FileViewContract.Presenter {
     @Override
     public void getFiles(String path) {
         LogUtils.i(TAG, "getFiles");
+        if (mView != null) {
+            mView.showLoadingView();
+        }
         mGetFilesSubscription = mRepository.getFiles(path).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ArrayList<BaseFile>>() {
@@ -59,8 +62,9 @@ public class FileViewPresenter implements FileViewContract.Presenter {
                                 if (baseFiles.size() == 0) {
                                     mView.showEmptyView();
                                 } else {
-                                    mView.refreshAdapter(baseFiles);
+                                    mView.hideLoadingView();
                                 }
+                                mView.refreshAdapter(baseFiles);
                             }
                         }
                     }
@@ -105,9 +109,6 @@ public class FileViewPresenter implements FileViewContract.Presenter {
     @Override
     public void subscribe() {
         LogUtils.i(TAG, "subscribe");
-        if (mView != null) {
-            mView.showLoadingView();
-        }
     }
 
     @Override

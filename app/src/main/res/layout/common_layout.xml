@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.koma.filemanager.main.MainActivity">
+    tools:context="com.koma.filemanager.base.BaseActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -24,5 +24,6 @@
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:paddingTop="?attr/actionBarSize"></FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

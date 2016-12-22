@@ -52,35 +52,11 @@ public class FileViewAdapter extends RecyclerView.Adapter<FileViewAdapter.ViewHo
     private Map<Integer, Boolean> mCached = new HashMap<>();
     @NonNull
     private RecyclerViewOnItemClickListener mListener;
-    private CompositeSubscription mSubsriptions;
 
     public FileViewAdapter(Context context, ArrayList<BaseFile> data) {
         mContext = context;
         mData = data;
-        mSubsriptions = new CompositeSubscription();
-        mSubsriptions.add(addSubscription());
         initCached();
-    }
-
-    private Subscription addSubscription() {
-        return RxBus.getInstance().toObservable().observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Action1<Object>() {
-                    @Override
-                    public void call(Object o) {
-                        if (o instanceof SelectEvent) {
-                            LogUtils.i(TAG, "SelectEvent");
-                            SelectEvent selectEvent = (SelectEvent) o;
-                            if (selectEvent.getSelectMode() == SelectHelper.MODE_IDLE) {
-                                mSelectMode = false;
-                                if (mCached != null) {
-                                    mCached.clear();
-                                }
-                                notifyDataSetChanged();
-                            }
-
-                        }
-                    }
-                }).subscribe(RxBus.defaultSubscriber());
     }
 
     public void setData(ArrayList<BaseFile> data) {
