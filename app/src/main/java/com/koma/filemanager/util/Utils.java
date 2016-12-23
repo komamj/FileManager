@@ -2,6 +2,10 @@ package com.koma.filemanager.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -59,5 +63,20 @@ public class Utils {
                 imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
             }
         }.run();
+    }
+
+    /**
+     * Finds the layout orientation of the RecyclerView, no matter which LayoutManager is in use.
+     *
+     * @param layoutManager the LayoutManager instance in use by the RV
+     * @return one of {@link OrientationHelper#HORIZONTAL}, {@link OrientationHelper#VERTICAL}
+     */
+    public static int getOrientation(RecyclerView.LayoutManager layoutManager) {
+        if (layoutManager instanceof LinearLayoutManager) {
+            return ((LinearLayoutManager) layoutManager).getOrientation();
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            return ((StaggeredGridLayoutManager) layoutManager).getOrientation();
+        }
+        return OrientationHelper.HORIZONTAL;
     }
 }

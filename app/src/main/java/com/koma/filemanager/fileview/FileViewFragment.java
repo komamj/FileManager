@@ -22,6 +22,7 @@ import com.koma.filemanager.helper.event.SortEvent;
 import com.koma.filemanager.util.Constants;
 import com.koma.filemanager.util.FileCategoryUtils;
 import com.koma.filemanager.util.LogUtils;
+import com.koma.filemanager.widget.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ import butterknife.OnClick;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+
+import static com.koma.filemanager.R.attr.layoutManager;
 
 /**
  * Created by koma on 12/1/16.
@@ -109,9 +112,11 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         LogUtils.i(TAG, "onViewCreated");
+        mNewFileBtn.setVisibility(View.VISIBLE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, linearLayoutManager.getOrientation()));
         mRecyclerView.setAdapter(mAdapter);
         addSubscription(subscribeEvents());
     }

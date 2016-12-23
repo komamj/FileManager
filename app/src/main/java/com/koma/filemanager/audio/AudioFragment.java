@@ -13,6 +13,7 @@ import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseFragment;
 import com.koma.filemanager.data.model.AudioFile;
 import com.koma.filemanager.util.LogUtils;
+import com.koma.filemanager.widget.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class AudioFragment extends BaseFragment implements AudioConstract.View {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, linearLayoutManager.getOrientation()));
         mAuidoFiles = new ArrayList<>();
         mAdapter = new AudioAdapter(mContext, mAuidoFiles);
         mRecyclerView.setAdapter(mAdapter);
