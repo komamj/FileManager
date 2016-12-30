@@ -67,6 +67,7 @@ public class LoadingView extends FrameLayout {
     }
 
     public void showLoadingEmpty() {
+        this.setVisibility(View.VISIBLE);
         mEmptyImageView.setVisibility(View.VISIBLE);
         mLoadingText.setText(mNoFileString);
     }

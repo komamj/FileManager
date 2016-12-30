@@ -38,9 +38,6 @@ public class FileViewPresenter implements FileViewContract.Presenter {
     @Override
     public void getFiles(String path) {
         LogUtils.i(TAG, "getFiles");
-        if (mView != null) {
-            mView.showLoadingView();
-        }
         mGetFilesSubscription = mRepository.getFiles(path).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ArrayList<BaseFile>>() {

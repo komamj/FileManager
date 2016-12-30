@@ -7,8 +7,6 @@ import com.koma.filemanager.helper.event.SortEvent;
 
 import java.util.ArrayList;
 
-import rx.Observable;
-
 /**
  * Created by koma on 12/1/16.
  */

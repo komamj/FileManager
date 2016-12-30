@@ -39,7 +39,6 @@ public class FileViewActivity extends BaseMenuActivity {
             transaction.replace(R.id.content, fileViewFragment).commit();
         }
         mPresenter = new FileViewPresenter(fileViewFragment, FileRepository.getInstance());
-        mPresenter.subscribe();
     }
 
     public String getPath() {

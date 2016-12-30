@@ -1,1 +1,1 @@
-include ':app', ':flexibleadapter'
+include ':app'

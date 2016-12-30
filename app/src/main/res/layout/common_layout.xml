@@ -26,4 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="?attr/actionBarSize"></FrameLayout>
+
+    <!-- FastScroller Layout must be at the end of ViewHierarchy
+		 in order to be displayed at the top of every views -->
+    <include layout="@layout/fast_scroller" />
 </android.support.design.widget.CoordinatorLayout>

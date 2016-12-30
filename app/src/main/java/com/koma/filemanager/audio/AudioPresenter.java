@@ -8,7 +8,6 @@ import com.koma.filemanager.util.LogUtils;
 
 import java.util.ArrayList;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -27,29 +26,6 @@ public class AudioPresenter implements AudioConstract.Presenter {
     @NonNull
     private FileRepository mFileRepository;
     private Subscription mAudioFilesSubsription;
-    private Subscriber mAuidoSubscriber = new Subscriber<ArrayList<AudioFile>>() {
-        @Override
-        public void onCompleted() {
-            LogUtils.i(TAG, "onCompleted Thread id : " + Thread.currentThread().getId());
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            LogUtils.e(TAG, "error : " + e.toString());
-        }
-
-        @Override
-        public void onNext(ArrayList<AudioFile> audioFiles) {
-            LogUtils.i(TAG, "onNext Thread id : " + Thread.currentThread().getId());
-            if (mView != null) {
-                if (audioFiles.size() == 0) {
-                    mView.showEmpty();
-                } else {
-                    mView.refreshAdapter(audioFiles);
-                }
-            }
-        }
-    };
 
     public AudioPresenter(@NonNull AudioConstract.View view, @NonNull FileRepository repository) {
         mFileRepository = repository;
@@ -79,7 +55,30 @@ public class AudioPresenter implements AudioConstract.Presenter {
         }
         mAudioFilesSubsription = mFileRepository.getAudioFiles().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mAuidoSubscriber);
+                .subscribe(new Subscriber<ArrayList<AudioFile>>() {
+                    @Override
+                    public void onCompleted() {
+                        LogUtils.i(TAG, "onCompleted Thread id : " + Thread.currentThread().getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "error : " + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<AudioFile> audioFiles) {
+                        LogUtils.i(TAG, "onNext Thread id : " + Thread.currentThread().getId());
+                        if (mView != null) {
+                            if (audioFiles.size() == 0) {
+                                mView.showEmptyView();
+                            } else {
+                                mView.hideLoadingView();
+                            }
+                            mView.refreshAdapter(audioFiles);
+                        }
+                    }
+                });
         mSubscription.add(mAudioFilesSubsription);
     }
 }

@@ -37,7 +37,6 @@ public class AudioActivity extends BaseMenuActivity {
             transaction.replace(R.id.content, audioFragment).commit();
         }
         mPresenter = new AudioPresenter(audioFragment, FileRepository.getInstance());
-        mPresenter.subscribe();
         getContentResolver().registerContentObserver(FileCategoryUtils.getAudioUri(), true, mAudioObserver);
     }
 
@@ -80,9 +79,6 @@ public class AudioActivity extends BaseMenuActivity {
     public void onDestroy() {
         super.onDestroy();
         LogUtils.i(TAG, "onDestroy");
-        if (mPresenter != null) {
-            mPresenter.unSubscribe();
-        }
         if (mAudioObserver != null) {
             getContentResolver().unregisterContentObserver(mAudioObserver);
         }

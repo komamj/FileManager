@@ -16,9 +16,6 @@ import com.bumptech.glide.Glide;
 import com.koma.filemanager.R;
 import com.koma.filemanager.base.BaseFile;
 import com.koma.filemanager.helper.FileCountHelper;
-import com.koma.filemanager.helper.RxBus;
-import com.koma.filemanager.helper.SelectHelper;
-import com.koma.filemanager.helper.event.SelectEvent;
 import com.koma.filemanager.util.FileUtils;
 import com.koma.filemanager.util.LocaleUtils;
 import com.koma.filemanager.util.LogUtils;
@@ -33,11 +30,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by koma on 12/1/16.

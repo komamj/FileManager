@@ -1,22 +1,6 @@
-/*
- * Copyright 2015-2016 Davide Steduto
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.koma.flexibleadapter.dapter;
+package com.koma.filemanager.base;
 
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,54 +8,26 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
-import com.koma.flexibleadapter.R;
-import com.koma.flexibleadapter.dapter.utils.Utils;
-import com.koma.flexibleadapter.fastscroller.FastScroller;
+import com.koma.filemanager.R;
+import com.koma.filemanager.widget.FastScroller;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
 /**
- * This class provides a set of standard methods to handle the selection on the items of an Adapter.
- * <p>Also it manages the FastScroller.</p>
- * This class is extended by {@link AnimatorAdapter}.
- *
- * @author Davide Steduto
- * @see FlexibleAdapter
- * @see AnimatorAdapter
- * @since 03/05/2015 Created
- * <br/>27/01/2016 Improved Selection, SelectAll, FastScroller
- * <br/>29/05/2016 Use of TreeSet instead of ArrayList
+ * Created by koma on 12/26/16.
  */
-@SuppressWarnings({"unused", "unchecked", "ConstantConditions", "WeakerAccess"})
-public abstract class SelectableAdapter extends RecyclerView.Adapter
+
+public abstract class BaseSelectableAdapter extends RecyclerView.Adapter
         implements FastScroller.BubbleTextCreator, FastScroller.OnScrollStateChangeListener {
-
-    private static final String TAG = SelectableAdapter.class.getSimpleName();
-    public static boolean DEBUG = false;
-
-    /**
-     * - MODE_IDLE: Adapter will not keep track of selections<br/>
-     * - MODE_SINGLE: Select only one per time<br/>
-     * - MODE_MULTI: Multi selection will be activated
-     */
-    public static final int MODE_IDLE = 0, MODE_SINGLE = 1, MODE_MULTI = 2;
-
-    /**
-     * Annotation interface for selection modes.
-     */
-    @IntDef({MODE_IDLE, MODE_SINGLE, MODE_MULTI})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Mode {
-    }
-
+    private static final String TAG = BaseSelectableAdapter.class.getSimpleName();
     private Set<Integer> mSelectedPositions;
     private int mMode;
+    public static final int MODE_IDLE = 0, MODE_MULTI = 2;
     protected RecyclerView mRecyclerView;
     protected FastScroller mFastScroller;
 
@@ -81,48 +37,11 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      */
     protected boolean mSelectAll = false;
 
-    /**
-     * ActionMode selection flag LastItemInActionMode.
-     * <p>Used when user returns to {@link #MODE_IDLE} and no selection is active.</p>
-     */
-    protected boolean mLastItemInActionMode = false;
-
-	/*--------------*/
-    /* CONSTRUCTORS */
-	/*--------------*/
-
-    /**
-     * @since 1.0.0
-     */
-    public SelectableAdapter() {
+    public BaseSelectableAdapter() {
         mSelectedPositions = new TreeSet<>();
         mMode = MODE_IDLE;
     }
 
-	/*----------------*/
-	/* STATIC METHODS */
-	/*----------------*/
-
-    /**
-     * Call this once, to enable or disable DEBUG logs.<br/>
-     * DEBUG logs are disabled by default.
-     *
-     * @param enable true to show DEBUG logs in verbose mode, false to hide them.
-     * @since 5.0.0-b1
-     */
-    public static void enableLogs(boolean enable) {
-        DEBUG = enable;
-    }
-
-	/*--------------*/
-	/* MAIN METHODS */
-	/*--------------*/
-
-    /**
-     * {@inheritDoc}
-     *
-     * @since 5.0.0-b6
-     */
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -142,7 +61,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
 
     /**
      * @return the RecyclerView instance
-     * @since 5.0.0-b6
      */
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
@@ -154,7 +72,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      *
      * @param layoutManager the layout manager to check
      * @return the span count
-     * @since 5.0.0-b7
      */
     public static int getSpanCount(RecyclerView.LayoutManager layoutManager) {
         if (layoutManager instanceof GridLayoutManager) {
@@ -169,70 +86,32 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      * Sets the mode of the selection:
      * <ul>
      * <li>{@link #MODE_IDLE} Default. Configures the adapter so that no item can be selected;
-     * <li>{@link #MODE_SINGLE} configures the adapter to react at the single tap over an item
      * (previous selection is cleared automatically);
      * <li>{@link #MODE_MULTI} configures the adapter to save the position to the list of the
      * selected items.
      * </ul>
      *
-     * @param mode one of {@link #MODE_IDLE}, {@link #MODE_SINGLE}, {@link #MODE_MULTI}
-     * @since 2.0.0
+     * @param mode one of {@link #MODE_IDLE}, {@link #MODE_MULTI}
      */
-    public void setMode(@Mode int mode) {
-        if (mMode == MODE_SINGLE && mode == MODE_IDLE)
+    public void setMode(int mode) {
+        if (mode == MODE_IDLE) {
             clearSelection();
+        }
         this.mMode = mode;
-        mLastItemInActionMode = (mode == MODE_IDLE);
     }
 
-    /**
-     * The current selection mode of the Adapter.
-     *
-     * @return current mode
-     * @see #MODE_IDLE
-     * @see #MODE_SINGLE
-     * @see #MODE_MULTI
-     * @since 2.1.0
-     */
-    @Mode
     public int getMode() {
         return mMode;
     }
 
-    /**
-     * @return true if user clicks on SelectAll on action button in ActionMode.
-     * @since 5.0.0-b1
-     */
     public boolean isSelectAll() {
         return mSelectAll;
     }
 
-    /**
-     * @return true if user returns to {@link #MODE_IDLE} and no selection is active, false otherwise
-     * @since 5.0.0-b1
-     */
-    public boolean isLastItemInActionMode() {
-        return mLastItemInActionMode;
-    }
-
-    /**
-     * Reset to false the ActionMode flags: {@code SelectAll} and {@code LastItemInActionMode}.
-     * <p><b>IMPORTANT:</b> To be called with <u>delay</u> in {@code holder.itemView.postDelayed()}.</p>
-     *
-     * @since 5.0.0-b1
-     */
     public void resetActionModeFlags() {
         this.mSelectAll = false;
-        this.mLastItemInActionMode = false;
     }
 
-    /**
-     * Indicates if the item, at the provided position, is selected.
-     *
-     * @param position Position of the item to check.
-     * @return true if the item is selected, false otherwise.
-     * @since 1.0.0
-     */
     public boolean isSelected(int position) {
         return mSelectedPositions.contains(position);
     }
@@ -242,7 +121,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      *
      * @param position the current position of the item to check
      * @return true if the item property </i>selectable</i> is true, false otherwise
-     * @since 5.0.0-b6
      */
     public abstract boolean isSelectable(int position);
 
@@ -250,7 +128,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      * Toggles the selection status of the item at a given position.
      * <p>The behaviour depends on the selection mode previously set with {@link #setMode(int)}.</p>
      * The Activated State of the ItemView is automatically set in
-     * {@link FlexibleViewHolder#toggleActivation()} called in {@code onClick} event
      * <p><b>Usage:</b>
      * <ul>
      * <li>If you don't want any item to be selected/activated at all, just don't call this method.</li>
@@ -263,21 +140,15 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      * </ul></p>
      *
      * @param position Position of the item to toggle the selection status for.
-     * @since 1.0.0
      */
     public void toggleSelection(int position) {
         if (position < 0) return;
-        if (mMode == MODE_SINGLE)
-            clearSelection();
-
         boolean contains = mSelectedPositions.contains(position);
         if (contains) {
             removeSelection(position);
         } else {
             addSelection(position);
         }
-        if (DEBUG) Log.v(TAG, "toggleSelection " + (contains ? "removed" : "added") +
-                " on position " + position + ", current " + mSelectedPositions);
     }
 
     /**
@@ -286,7 +157,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      * @param position Position of the item to add the selection status for.
      * @return true if the set is modified, false otherwise or position is not currently selectable
      * @see #isSelectable(int)
-     * @since 5.0.0-b7
      */
     public boolean addSelection(int position) {
         return isSelectable(position) && mSelectedPositions.add(position);
@@ -297,7 +167,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      *
      * @param position Position of the item to remove the selection status for.
      * @return true if the set is modified, false otherwise
-     * @since 5.0.0-b7
      */
     public boolean removeSelection(int position) {
         return mSelectedPositions.remove(position);
@@ -330,7 +199,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
     public void selectAll(Integer... viewTypes) {
         mSelectAll = true;
         List<Integer> viewTypesToSelect = Arrays.asList(viewTypes);
-        if (DEBUG) Log.v(TAG, "selectAll ViewTypes to include " + viewTypesToSelect);
         int positionStart = 0, itemCount = 0;
         for (int i = 0; i < getItemCount(); i++) {
             if (isSelectable(i) &&
@@ -346,8 +214,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
                 }
             }
         }
-        if (DEBUG)
-            Log.d(TAG, "selectAll notifyItemRangeChanged from positionStart=" + positionStart + " itemCount=" + getItemCount());
         notifySelectionChanged(positionStart, getItemCount());
     }
 
@@ -360,7 +226,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      * @since 1.0.0
      */
     public void clearSelection() {
-        if (DEBUG) Log.d(TAG, "clearSelection " + mSelectedPositions);
         Iterator<Integer> iterator = mSelectedPositions.iterator();
         int positionStart = 0, itemCount = 0;
         //The notification is done only on items that are currently selected.
@@ -382,14 +247,13 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
     }
 
     private void notifySelectionChanged(int positionStart, int itemCount) {
-        if (itemCount > 0) notifyItemRangeChanged(positionStart, itemCount, Payload.SELECTION);
+        if (itemCount > 0) notifyItemRangeChanged(positionStart, itemCount);
     }
 
     /**
      * Counts the selected items.
      *
      * @return Selected items count
-     * @since 1.0.0
      */
     public int getSelectedItemCount() {
         return mSelectedPositions.size();
@@ -400,42 +264,15 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      * <p>The list is a copy and it's sorted.</p>
      *
      * @return A copied List of selected items ids from the Set
-     * @since 5.0.0-b2
      */
     public List<Integer> getSelectedPositions() {
         return new ArrayList<>(mSelectedPositions);
     }
 
     /**
-     * Retrieves the set of selected items.
-     * <p>The set is sorted.</p>
-     *
-     * @return Set of selected items ids
-     */
-//	public Set<Integer> getSelectedPositionsAsSet() {
-//		return mSelectedPositions;
-//	}
-
-    /**
-     * Sorts and retrieves the list of selected items.
-     * <p><b>To call once!</b> Then call {@link #getSelectedPositions()}.</p>
-     *
-     * @return Ordered list of selected items ids
-     */
-//	public List<Integer> getSortedSelectedPositions() {
-//		Collections.sort(mSelectedPositions);
-//		return mSelectedPositions;
-//	}
-
-	/*----------------*/
-	/* INSTANCE STATE */
-	/*----------------*/
-
-    /**
      * Saves the state of the current selection on the items.
      *
      * @param outState Current state
-     * @since 1.0.0
      */
     public void onSaveInstanceState(Bundle outState) {
         outState.putIntegerArrayList(TAG, new ArrayList<>(mSelectedPositions));
@@ -445,7 +282,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      * Restores the previous state of the selection on the items.
      *
      * @param savedInstanceState Previous state
-     * @since 1.0.0
      */
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         mSelectedPositions.addAll(savedInstanceState.getIntegerArrayList(TAG));
@@ -453,14 +289,13 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
     }
 
 	/*---------------*/
-	/* FAST SCROLLER */
-	/*---------------*/
+    /* FAST SCROLLER */
+    /*---------------*/
 
     /**
      * Displays or Hides the {@link FastScroller} if previously configured.
      *
      * @see #setFastScroller(FastScroller, int)
-     * @since 5.0.0-b1
      */
     public void toggleFastScroller() {
         if (mFastScroller != null) {
@@ -480,7 +315,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
 
     /**
      * @return the current instance of the {@link FastScroller} object
-     * @since 5.0.0-b1
      */
     public FastScroller getFastScroller() {
         return mFastScroller;
@@ -506,11 +340,9 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      * @param fastScroller        instance of {@link FastScroller}
      * @param accentColor         the default value color if the accentColor cannot be fetched
      * @param stateChangeListener the listener to monitor when fast scrolling state changes
-     * @since 5.0.0-b6
      */
     public void setFastScroller(@NonNull FastScroller fastScroller, int accentColor,
                                 FastScroller.OnScrollStateChangeListener stateChangeListener) {
-        if (DEBUG) Log.v(TAG, "Setting FastScroller...");
         if (mRecyclerView == null) {
             throw new IllegalStateException("RecyclerView cannot be null. Setup FastScroller after the Adapter has been added to the RecyclerView.");
         } else if (fastScroller == null) {
@@ -519,18 +351,15 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
         mFastScroller = fastScroller;
         mFastScroller.setRecyclerView(mRecyclerView);
         mFastScroller.addOnScrollStateChangeListener(stateChangeListener);
-        accentColor = Utils.fetchAccentColor(fastScroller.getContext(), accentColor);
         mFastScroller.setViewsToUse(
                 R.layout.library_fast_scroller_layout,
                 R.id.fast_scroller_bubble,
                 R.id.fast_scroller_handle, accentColor);
-        if (DEBUG) Log.i(TAG, "FastScroller initialized with color " + accentColor);
     }
 
     /**
      * @param position the position of the handle
      * @return the value of the item, default value is: position + 1
-     * @since 5.0.0-b1
      */
     @Override
     public String onCreateBubbleText(int position) {
@@ -541,7 +370,6 @@ public abstract class SelectableAdapter extends RecyclerView.Adapter
      * Triggered when FastScroller State is changed.
      *
      * @param scrolling true if the user is actively scrolling, false when idle
-     * @since 5.0.0-b1
      */
     @Override
     public void onFastScrollerStateChange(boolean scrolling) {

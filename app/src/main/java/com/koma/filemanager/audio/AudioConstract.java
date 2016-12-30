@@ -16,7 +16,11 @@ public interface AudioConstract {
     interface View extends BaseView<Presenter> {
         void refreshAdapter(ArrayList<AudioFile> audioFiles);
 
-        void showEmpty();
+        void showLoadingView();
+
+        void hideLoadingView();
+
+        void showEmptyView();
     }
 
     interface Presenter extends BasePresenter {

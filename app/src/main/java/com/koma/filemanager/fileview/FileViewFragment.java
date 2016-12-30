@@ -119,6 +119,10 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, linearLayoutManager.getOrientation()));
         mRecyclerView.setAdapter(mAdapter);
         addSubscription(subscribeEvents());
+        showLoadingView();
+        if (mPresenter != null) {
+            mPresenter.subscribe();
+        }
     }
 
     @Override
@@ -169,13 +173,14 @@ public class FileViewFragment extends BaseFragment implements FileViewContract.V
 
     @Override
     public void hideLoadingView() {
+        LogUtils.i(TAG, "hideLoadingView");
         super.hideLodingView();
     }
 
     @Override
     public void showEmptyView() {
         LogUtils.i(TAG, "showEmptyView");
-        super.showLoadingEmpty();
+        showLoadingEmpty();
     }
 
     @Override
